@@ -6,10 +6,10 @@
 int main()
 {
 	/*
+	* Entry point, open our engine and run it. 
 	*/
 
 	std::unique_ptr<Crumb::Core> Engine = std::make_unique<Crumb::Core>();
-	printf("Crumb Engine Launching...\n");
 	return Engine->Run();
 
 }
