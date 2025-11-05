@@ -1,9 +1,10 @@
 
 <h1> Crumb Engine </h1>
 
-Crumb Engine is a 3D game engine designed for ccreating voxel based games with an emphasis towards procedural generation, such as Minecraft.
+Crumb Engine is a 3D game engine designed for creating voxel based games with an emphasis towards procedural generation, such as Minecraft.
 
-It is crossplatform, and 
+
+Jump into the [Get Started guide](docs/GetStarted.md) or read up on the [Documentation](docs/Docs.md).
 
 <h1> Libraries Used </h1>
 
