@@ -1,6 +1,5 @@
 #apps CMakeLists.txt
-
-#Option of which app we are creating...
+#decides which application code we want to include...
 
 cmake_minimum_required(VERSION 3.16)
 set(CMAKE_CXX_STANDARD 17)
@@ -22,3 +21,4 @@ if(${CRUMB_APP} STREQUAL "MorgCraft")
 else() #default app load - an empty app template
 	add_subdirectory("Base")
 endif()
+
