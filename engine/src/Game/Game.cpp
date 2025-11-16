@@ -29,7 +29,7 @@ namespace Crumb
 	{
 		m_WindowManager->InitWindow();
 
-
+		//m_WindowManager->UpdateWindow();
 		return 0;
 	}
 

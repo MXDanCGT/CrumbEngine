@@ -51,9 +51,12 @@ namespace Crumb
 
 	void MWindowManager_GLFW::UpdateWindow()
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
-		glfwSwapBuffers(m_Window);
-		glfwPollEvents();
+		while(!glfwWindowShouldClose(m_Window))
+		{
+			glClear(GL_COLOR_BUFFER_BIT);
+			glfwSwapBuffers(m_Window);
+			glfwPollEvents();
+		}
 	}
 
 	bool MWindowManager_GLFW::bShouldCloseWindow()
@@ -63,6 +66,7 @@ namespace Crumb
 
 	void MWindowManager_GLFW::Shutdown()
 	{
+		glfwDestroyWindow(m_Window);
 		glfwTerminate();
 	}
 

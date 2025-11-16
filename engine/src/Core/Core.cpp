@@ -24,9 +24,6 @@ namespace Crumb
 		while (!m_Game->ShouldCloseGame())
 		{
 			/*Handle our BTS tick stuff*/
-
-
-
 			m_Game->Tick(DeltaTime);
 
 		}

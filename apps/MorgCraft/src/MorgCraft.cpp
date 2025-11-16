@@ -13,5 +13,5 @@ MorgCraft::~MorgCraft()
 
 void MorgCraft::Tick(float DeltaTime)
 {
-	printf("Tick!\n");
+	Game::Tick(DeltaTime); //ALWAYS CALL SUPER
 }
