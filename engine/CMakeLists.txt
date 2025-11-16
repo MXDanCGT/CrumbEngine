@@ -1,12 +1,14 @@
 #engine CMakeLists
 #Engine customisation / enabling / disabling modules
-
 cmake_minimum_required(VERSION 3.16)
 set(CMAKE_CXX_STANDARD 17)
 
 
 
-add_subdirectory(core) #Core is required
+file(GLOB_RECURSE CRUMB_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
-add_library(CrumbEngine STATIC "CrumbEntry.cpp")
-target_include_directories(CrumbEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+
+add_library(CrumbEngine STATIC ${CRUMB_SOURCES})
+target_include_directories(CrumbEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
+
+target_precompile_headers(CrumbEngine PRIVATE "include/pch.h")

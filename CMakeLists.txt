@@ -14,11 +14,16 @@ project(CrumbEngine VERSION 0.01
 add_subdirectory("engine") #Subdirectory containing engine code 
 
 #By default, we dont want to build any of the applications, leave that to the application programmer... the curious can build the example applications they fancy
-#add_subdirectory("apps")
+add_subdirectory("apps")
 #TODO fork without apps? 
+
+add_subdirectory("external/glfw")
+add_subdirectory("external/glad")
+
+target_link_libraries(CrumbEngine PRIVATE glfw glad) #atm, this is where we link... but is this good or should this be lower down?
+
 
 
 #We export the engine here - TODO is this the best way to do this?
 #Other option would be exporting in engine/CMakeLists.txt by each module individually... but that feels cumbersome
-
-export(TARGETS CrumbEngine NAMESPACE Crumb:: FILE "${CMAKE_BINARY_DIR}/CrumbEngine.cmake")
+#export(TARGETS CrumbEngine NAMESPACE Crumb:: FILE "${CMAKE_BINARY_DIR}/CrumbEngine.cmake")

@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.16)
 set(CMAKE_CXX_STANDARD 17)
 
-set(CRUMB_APP "Base")
+set(CRUMB_APP "MorgCraft") #Set to morg craft for now..
 
 #at the moment (dunno why this is all going in here but there we are)
 # The application programmer's process
@@ -21,4 +21,3 @@ if(${CRUMB_APP} STREQUAL "MorgCraft")
 else() #default app load - an empty app template
 	add_subdirectory("Base")
 endif()
-

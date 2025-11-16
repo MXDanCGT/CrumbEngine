@@ -9,3 +9,5 @@ file(GLOB_RECURSE APP_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src
 add_executable(MorgCraft)
 target_sources(MorgCraft PRIVATE ${APP_SOURCES})
 target_include_directories(MorgCraft PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+
+target_link_libraries(MorgCraft PRIVATE CrumbEngine)
