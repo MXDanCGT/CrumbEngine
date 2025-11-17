@@ -17,8 +17,8 @@ add_subdirectory("engine") #Subdirectory containing engine code
 add_subdirectory("apps")
 #TODO fork without apps? 
 
-add_subdirectory("external/glfw")
 add_subdirectory("external/glad")
+add_subdirectory("external/glfw")
 
 target_link_libraries(CrumbEngine PRIVATE glfw glad) #atm, this is where we link... but is this good or should this be lower down?
 

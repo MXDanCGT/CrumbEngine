@@ -1,23 +1,12 @@
 #pragma once
 #include "pch.h"
 
-
+#include "Platform.h"
 #include "Window/WindowManager.h"
+#include "Input/InputManager.h"
 
 namespace Crumb
 {
-	enum EPS_Window : uint8_t
-	{
-		EPS_W_GLFW = 0
-	};
-
-	/*Platform settings struct allowing for the application user to change the implementations called...*/
-	struct FPlatformSettings
-	{
-		FPlatformSettings() {};
-		/*Desired window implementation*/
-		EPS_Window WindowPlatform = EPS_Window::EPS_W_GLFW;
-	};
 
 	/*Game is the actual app being run - the application programmer will extend this to begin adding their own implementation*/
 	class Game
@@ -53,6 +42,8 @@ namespace Crumb
 
 		std::unique_ptr<MWindowManager> m_WindowManager;
 
+		/*shared ptr so we can pass a weak ptr to the window manager... ?*/
+		std::shared_ptr<MInputManager> m_InputManager;
 
 	};
 

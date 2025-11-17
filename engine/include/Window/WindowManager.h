@@ -1,9 +1,15 @@
 #pragma once
 #include "pch.h"
 
-struct GLFWwindow; //Forward decl
+
+//FORWARD DECLS
+
+struct GLFWwindow;
+struct GLFWmonitor;
 
 namespace Crumb {
+
+	class MInputManager;
 
 	/*
 	* Window manager handles creation and maintenance of the window used in the game / engine
@@ -14,8 +20,7 @@ namespace Crumb {
 
 	public:
 
-		MWindowManager(int WindowWidth, int WindowHeight, std::string WindowName, bool Fullscreen = false); /*Specific dims window*/
-		~MWindowManager();
+		MWindowManager(int WindowWidth, int WindowHeight, std::string WindowName, std::shared_ptr<MInputManager> InputManager, bool Fullscreen = false); /*Specific dims window*/
 
 		virtual int InitWindow() = 0;
 
@@ -38,8 +43,10 @@ namespace Crumb {
 		bool m_Fullscreen;
 
 		std::string m_WindowName;
-		
 
+
+		/*Weak ptr to our input manager, allows us to see the events with key bindings and add them to the managers event queue*/
+		std::weak_ptr<MInputManager> m_InputManager;
 	};
 
 	/*
@@ -53,20 +60,37 @@ namespace Crumb {
 	{
 	public:
 
-		MWindowManager_GLFW(int WindowWidth, int WindowHeight, std::string WindowName, bool AutoInit);
-		~MWindowManager_GLFW();
+		MWindowManager_GLFW(int WindowWidth, int WindowHeight, std::string WindowName, std::shared_ptr<MInputManager> InputManager, bool Fullscreen = false);
+		virtual ~MWindowManager_GLFW();
 
+		/*Initialise our main window with GLFW*/
 		virtual int InitWindow() override;
 
+		/*Update the window GLFW implementation*/
 		virtual void UpdateWindow() override;
 
+		/*GLFW keypress callback function - accesses input manager, and bindings as defined by the application programmer*/
+		static void ManageInput(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+		/*Get whether or not the game window should stay open - used in game loop running*/
 		virtual bool bShouldCloseWindow() override;
 
+		/*Shutdown the window(s)*/
 		virtual void Shutdown() override;
+
 	private:
 
 		/*MEMBER VARIABLES*/
 
+		/*
+		* GLFW was written in C, and theres some fiddling with custom constructors and destructors I need to do to make unique ptrs of these types
+		* For the time being we will just be careful to always delete these!
+		*/
+
+		/*GLFW window ptr for the main game screen*/
 		GLFWwindow* m_Window; //NTS: Make sure all the window ptrs are called the same thing
+
+		/*GLFW monitor ptr for where we put those windows*/
+		GLFWmonitor* m_Monitor;
 	};
 }

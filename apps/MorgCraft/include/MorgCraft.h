@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 
-#include "Game/Game.h"
+#include "Core/Game.h"
 
 /*
 * Example extension of the Crumb game object
@@ -15,4 +15,7 @@ public:
 	~MorgCraft();
 
 	virtual void Tick(float DeltaTime) override;
+
+	/*Debug tester function for input actions...*/
+	inline void SayFoo() { printf("Foo"); }
 };

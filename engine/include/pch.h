@@ -5,3 +5,6 @@
 #include <vector>
 #include <assert.h>
 #include <string>
+#include <functional>
+#include <queue>
+#include <map>

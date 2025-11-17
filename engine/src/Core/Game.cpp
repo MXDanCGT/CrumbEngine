@@ -1,19 +1,21 @@
-#include "Game/Game.h"
+#include "Core/Game.h"
 
 
 namespace Crumb
 {
 	Game::Game(int ScreenHeight, int ScreenWidth, std::string WindowName, bool Fullscreen)
 	{
-
 		switch (m_PlatformSettings.WindowPlatform)
 		{
 		case EPS_Window::EPS_W_GLFW: //GLFW window
-			m_WindowManager = std::make_unique<MWindowManager_GLFW>(ScreenHeight, ScreenWidth, WindowName, Fullscreen);
+			m_InputManager = std::make_shared<MInputManager_GLFW>();
+			
+			m_WindowManager = std::make_unique<MWindowManager_GLFW>(ScreenHeight, ScreenWidth, WindowName, m_InputManager, Fullscreen);
 			break;
 
 		default:
-			m_WindowManager = std::make_unique<MWindowManager_GLFW>(ScreenHeight, ScreenWidth, WindowName, Fullscreen);
+			m_InputManager = std::make_shared<MInputManager_GLFW>();
+			m_WindowManager = std::make_unique<MWindowManager_GLFW>(ScreenHeight, ScreenWidth, WindowName, m_InputManager, Fullscreen);
 			break;
 		}
 
@@ -27,10 +29,7 @@ namespace Crumb
 
 	int Game::Init()
 	{
-		m_WindowManager->InitWindow();
-
-		//m_WindowManager->UpdateWindow();
-		return 0;
+		return 	m_WindowManager->InitWindow();;
 	}
 
 	bool Game::ShouldCloseGame()

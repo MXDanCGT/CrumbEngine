@@ -25,7 +25,6 @@ namespace Crumb
 		{
 			/*Handle our BTS tick stuff*/
 			m_Game->Tick(DeltaTime);
-
 		}
 		m_Game->Shutdown();
 		return 0;
