@@ -21,13 +21,6 @@ add_subdirectory("external/glfw")
 
 target_link_libraries(CrumbEngine PRIVATE glfw glad) #atm, this is where we link... but is this good or should this be lower down?
 
-#Include shaders
-file(GLOB_RECURSE SHADERS
-    ${CMAKE_CURRENT_SOURCE_DIR}/engine/resources/*.vert
-    ${CMAKE_CURRENT_SOURCE_DIR}/engine/resources/*.frag
-)
-
-
 #We export the engine here - TODO is this the best way to do this?
 #Other option would be exporting in engine/CMakeLists.txt by each module individually... but that feels cumbersome
 #export(TARGETS CrumbEngine NAMESPACE Crumb:: FILE "${CMAKE_BINARY_DIR}/CrumbEngine.cmake")Work\cmake-4.2.0-rc2-windows-x86_64\bin\cmake.exe

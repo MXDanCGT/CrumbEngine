@@ -16,7 +16,6 @@ namespace Crumb
 		m_WindowName = WindowName;
 
 		m_Fullscreen = Fullscreen;
-
 		m_InputManager = InputManager;
 
 	}
@@ -26,6 +25,7 @@ namespace Crumb
 		m_Window = nullptr;
 		m_Monitor = nullptr;
 
+		m_Renderer = std::make_unique<MRenderer_GL>();
 		m_InputManager = (MInputManager_GLFW*)InputManager;
 	}
 

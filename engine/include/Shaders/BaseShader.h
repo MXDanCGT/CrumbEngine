@@ -17,13 +17,12 @@ namespace Crumb
 		BaseShader();
 		~BaseShader();
 
-						/*To this day I have not a fucking scooby what a hwnd is*/
-		virtual bool Init(const char* FragmentShader, const char* VertexShader) = 0;
+		virtual bool Init(const char* VertexShaderFile, const char* FragmentShaderFile) = 0;
 
 	protected:
 
 		/*Compile a given shader*/
-		virtual int CompileShader(const char* ShaderFileName, GLenum Type) = 0;
+		virtual int CompileShader(const char* ShaderFileCode, GLenum Type) = 0;
 
 	};
 
@@ -39,10 +38,13 @@ namespace Crumb
 		/*Little helper function to print shader compile stuffs incase it goes wrong*/
 		int PrintShaderCompileStatus(int ProgramNumber);
 
-		virtual bool Init(const char* FragmentShader, const char* VertexShader) override;
+		virtual bool Init(const char* VertexShaderFile, const char* FragmentShaderFile) override;
 
 
-		virtual int CompileShader(const char* ShaderFileName, GLenum Type) override;
+		virtual int CompileShader(const char* ShaderFileCode, GLenum Type) override;
+
+		/*We read these files as strings and */
+		std::string ReadShaderFile(const char* FilePath);
 	};
 
 }

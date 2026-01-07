@@ -102,6 +102,6 @@ namespace Crumb {
 
 		MInputManager_GLFW* m_InputManager;
 
-		MRenderer_GL* m_Renderer;
+		std::unique_ptr<MRenderer_GL> m_Renderer;
 	};
 }

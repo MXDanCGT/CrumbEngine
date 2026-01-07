@@ -4,6 +4,9 @@
 
 namespace Crumb
 {
+	class BaseShader_GL;
+
+
 	/*Base renderer*/
 	class MRenderer
 	{
@@ -12,7 +15,7 @@ namespace Crumb
 		MRenderer();
 		~MRenderer();
 
-		virtual void Update();
+		virtual void Update() = 0;
 	};
 
 	/*OpenGL specific renderer*/
@@ -24,6 +27,10 @@ namespace Crumb
 		~MRenderer_GL();
 
 		virtual void Update() override;
+
+	private:
+
+		std::unique_ptr<BaseShader_GL> PassShader;
 	};
 
 }
