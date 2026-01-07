@@ -1,6 +1,8 @@
 #include "Window/WindowManager.h"
 
 #include "Input/InputManager.h"
+#include "Renderer/Renderer.h"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -67,8 +69,9 @@ namespace Crumb
 
 		glfwMakeContextCurrent(m_Window);
 		MInputManager_GLFW* Test = (MInputManager_GLFW*)glfwGetWindowUserPointer(m_Window);
-		assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)); 
 
+		assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)); 
+	
 		return 0;
 	}
 
@@ -95,6 +98,7 @@ namespace Crumb
 	void MWindowManager_GLFW::UpdateWindow()
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
+		//m_Renderer->Update();
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();
 	}

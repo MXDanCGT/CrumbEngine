@@ -5,15 +5,25 @@
 namespace Crumb
 {
 	/*Base renderer*/
-	class Renderer
+	class MRenderer
 	{
+	public:
 
+		MRenderer();
+		~MRenderer();
+
+		virtual void Update();
 	};
 
 	/*OpenGL specific renderer*/
-	class Renderer_GL : public Renderer
+	class MRenderer_GL : public MRenderer
 	{
-	
+	public:
+
+		MRenderer_GL();
+		~MRenderer_GL();
+
+		virtual void Update() override;
 	};
 
 }

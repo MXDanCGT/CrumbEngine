@@ -1,6 +1,6 @@
 #Externals CMakeLists
 
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 4.2)
 
 set(CMAKE_CXX_STANDARD 17)
 

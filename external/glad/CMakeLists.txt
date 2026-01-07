@@ -1,7 +1,7 @@
 #Glad cmake lists file to allow us to simply "add_subdirectory"
 
 
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 4.2)
 project(glad)
 
 add_library(glad)

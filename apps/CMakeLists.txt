@@ -1,7 +1,7 @@
 #apps CMakeLists.txt
 #decides which application code we want to include...
 
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 4.2)
 set(CMAKE_CXX_STANDARD 17)
 
 set(CRUMB_APP "MorgCraft") #Set to morg craft for now..

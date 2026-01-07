@@ -12,6 +12,9 @@ namespace Crumb {
 	class MInputManager;
 	class MInputManager_GLFW;
 
+	class MRenderer;
+	class MRenderer_GL;
+
 	/*
 	* Window manager handles creation and maintenance of the window used in the game / engine
 	* Interface for lower level code...
@@ -48,6 +51,9 @@ namespace Crumb {
 
 		/*Weak ptr to our input manager, allows us to see the events with key bindings and add them to the managers event queue*/
 		MInputManager* m_InputManager;
+
+		/*The windows renderer (i.e.: rendering to THIS window)*/
+		MRenderer* m_Renderer;
 	};
 
 	/*
@@ -66,8 +72,6 @@ namespace Crumb {
 
 		/*Initialise our main window with GLFW*/
 		virtual int InitWindow() override;
-
-
 
 		/*Update the window GLFW implementation*/
 		virtual void UpdateWindow() override;
@@ -97,5 +101,7 @@ namespace Crumb {
 		GLFWmonitor* m_Monitor;
 
 		MInputManager_GLFW* m_InputManager;
+
+		MRenderer_GL* m_Renderer;
 	};
 }

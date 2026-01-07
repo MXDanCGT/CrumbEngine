@@ -28,7 +28,7 @@ namespace Crumb
         template <typename T>
         void BindInputEvent(void (T::* Callback)(), T* Perfromer, InputKeyCode KeyPress, InputActionCode KeyAction) //Create an input event on a passed in function - a function to call when  
         {
-            /*Figured out that lambda functions CAN be converted to std::functions...*/
+            /*lambda functions CAN be converted to std::functions...*/
             auto CallbackLambda = [Perfromer, Callback]()
             {
               (Perfromer->*Callback)();
