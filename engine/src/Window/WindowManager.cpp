@@ -7,7 +7,7 @@
 	
 namespace Crumb
 {
-	MWindowManager::MWindowManager(int WindowWidth, int WindowHeight, std::string WindowName,std::shared_ptr<MInputManager> InputManager, bool Fullscreen)
+	MWindowManager::MWindowManager(int WindowWidth, int WindowHeight, std::string WindowName, MInputManager* InputManager, bool Fullscreen)
 	{
 		m_WindowWidth = WindowWidth;
 		m_WindowHeight = WindowHeight;
@@ -19,10 +19,12 @@ namespace Crumb
 
 	}
 
-	MWindowManager_GLFW::MWindowManager_GLFW(int WindowWidth, int WindowHeight, std::string WindowName, std::shared_ptr<MInputManager> InputManager, bool FullScreen) : MWindowManager::MWindowManager(WindowWidth, WindowHeight, WindowName, InputManager, FullScreen)
+	MWindowManager_GLFW::MWindowManager_GLFW(int WindowWidth, int WindowHeight, std::string WindowName, MInputManager* InputManager, bool Fullscreen) : MWindowManager::MWindowManager(WindowWidth, WindowHeight, WindowName, InputManager, Fullscreen)
 	{
 		m_Window = nullptr;
 		m_Monitor = nullptr;
+
+		m_InputManager = (MInputManager_GLFW*)InputManager;
 	}
 
 	MWindowManager_GLFW::~MWindowManager_GLFW()
@@ -59,11 +61,12 @@ namespace Crumb
 			return -1;
 		}
 		
-		glfwSetWindowUserPointer(m_Window, (void*)&m_InputManager);
+		glfwSetWindowUserPointer(m_Window, (void*)m_InputManager);
+
 		glfwSetKeyCallback(m_Window, ManageInput);
 
 		glfwMakeContextCurrent(m_Window);
-
+		MInputManager_GLFW* Test = (MInputManager_GLFW*)glfwGetWindowUserPointer(m_Window);
 		assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)); 
 
 		return 0;
@@ -76,25 +79,24 @@ namespace Crumb
 		//If so add to input event queue TODO this feels a little dodgy going back and forth between systems like this..
 
 		//Circumvents need for static shit
-		MInputManager_GLFW* InputManager;
+		MInputManager_GLFW* InputManager = nullptr;
 		InputManager = (MInputManager_GLFW*)glfwGetWindowUserPointer(window);
 
 		//As Crumb key numbers are the same as GLFW, we just need to find a binding in the Input manager for this number...
 
 		//And this function is only called when there IS a key input event, so we dont need to filter that.
 		//Simply pass off the key and action values
-		InputManager->LogInputEvent(key, action);
-		
+
+
+		if(InputManager)
+			InputManager->LogInputEvent(key, action, mods);
 	}
 
 	void MWindowManager_GLFW::UpdateWindow()
 	{
-		while(!glfwWindowShouldClose(m_Window))
-		{
-			glClear(GL_COLOR_BUFFER_BIT);
-			glfwSwapBuffers(m_Window);
-			glfwPollEvents();
-		}
+		glClear(GL_COLOR_BUFFER_BIT);
+		glfwSwapBuffers(m_Window);
+		glfwPollEvents();
 	}
 
 	bool MWindowManager_GLFW::bShouldCloseWindow()

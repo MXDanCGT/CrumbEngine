@@ -16,6 +16,7 @@ int main()
 
 	/*Setup the engine core with our game object*/
 	std::unique_ptr<Crumb::Core> MorgCraft_Core = std::make_unique<Crumb::Core>(std::move(morgCraft)); //Initialise a core with your game object
+	
 	/*Init*/
 	MorgCraft_Core->Init();
 	/*Run!*/

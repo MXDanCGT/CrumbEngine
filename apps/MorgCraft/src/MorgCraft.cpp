@@ -5,16 +5,17 @@ MorgCraft::MorgCraft(int ScreenHeight, int ScreenWidth, std::string WindowName, 
 {
 	printf("MorgCraft is here!\n");
 
-
+	m_InputManager->BindInputEvent<MorgCraft>(&MorgCraft::SayFoo, this, Crumb::CRUMB_W, Crumb::CRUMB_PRESSED);
 }
 
 MorgCraft::~MorgCraft()
 {
+
 }
 
 void MorgCraft::Tick(float DeltaTime)
 {
 	Game::Tick(DeltaTime); //ALWAYS CALL SUPER
 
-	//Your functionality goes here
+	//Your game loop functionality goes here
 }

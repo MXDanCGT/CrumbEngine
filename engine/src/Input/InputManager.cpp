@@ -9,35 +9,49 @@ namespace Crumb
 		InitLibKey();
 	}
 
+	MInputManager_GLFW::MInputManager_GLFW() : MInputManager::MInputManager()
+	{
+
+	}
+
 	MInputManager::~MInputManager()
 	{
 
 	}
 
-	void MInputManager::BindInputEvent(std::function<void()> Callback, EInputCode KeyPress, EInputAction KeyAction)
+	//template <typename T>
+	//void MInputManager::BindInputEvent(void (T::* Callback)(), InputKeyCode KeyPress, InputActionCode KeyAction)
+	//{
+	//	//Create an input event with the given func, key press and action
+
+	//	//TODO MULTIPLE BINDINGS TO EACH KEY??
+	//	//Hash the key combination? 
+
+	//	//InputEventMapping.insert({KeyPress, InputEvent(Callback, KeyAction) });
+	//}
+
+	void MInputManager::LogInputEvent(int LibKey, int LibAction, int LibMods)
 	{
-		//Create an input event with the given func, key press and action
+		//Im a little confused admiteddly, this isnt a static func so calling this with IM shouldnt be necessary
 
-		//TODO MULTIPLE BINDINGS TO EACH KEY??
+		////Step 1 - convert the input key into Crumb Keys
+		InputKeyCode CrumbKey =  GetCrumbKey(LibKey);//TODO REINTRODUCE USE OF GETCRUMBKEY SO WE CAN KEEP LIBRARY / PLATFORM AGNOSTICISM
+		InputActionCode CrumbAction = GetCrumbAction(LibAction);
 
-		InputEventMapping.insert({ KeyPress, InputEvent(Callback, KeyAction) });
-	}
-
-	void MInputManager::LogInputEvent(int LibKey, int LibAction)
-	{
-		//Step 1 - convert the input key into Crumb Keys
-		EInputCode CrumbKey = static_cast<EInputCode>(GetCrumbKey(LibKey)); //Explicit cast hmmm
-		//TODO WHAT IF A NUMBER NOT IN THE LIST IS PASSED IN??
 
 		if (InputEventMapping.find(CrumbKey) != InputEventMapping.end()) //If this key is mapped
 		{
 			//TODO Input Events with context mapping, i.e.: pressed, released...
 			InputEvent ToPush = InputEventMapping[CrumbKey];
-			if (ToPush.m_Action = static_cast<EInputAction>(GetCrumbAction(LibAction)))
+			if (ToPush.m_Action = GetCrumbAction(LibAction))
 			{
-				InputEventQueue.push(ToPush);
+				InputEventQueue.push(ToPush); //Do this input event...
 			}
+			return;
 		}
+
+		if(CrumbAction == CRUMB_PRESSED)
+			printf("Input key %d pressed but no input bound\n", CrumbKey);
 	}
 
 	void MInputManager::Update()
@@ -48,5 +62,26 @@ namespace Crumb
 			InputEventQueue.pop();
 			Event.CallEvent();
 		}
+	}
+
+	InputKeyCode MInputManager::GetCrumbKey(int LibKey)
+	{
+		return LibKeyMap[LibKey];
+	}
+
+	InputActionCode MInputManager::GetCrumbAction(int LibKey)
+	{
+		return LibActionMap[LibKey];
+	}
+
+
+	InputKeyCode MInputManager_GLFW::GetCrumbKey(int LibKey)
+	{
+		return LibKey;
+	}
+
+	InputActionCode MInputManager_GLFW::GetCrumbAction(int LibAction)
+	{
+		return LibAction;
 	}
 }

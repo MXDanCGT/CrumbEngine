@@ -17,5 +17,5 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	/*Debug tester function for input actions...*/
-	inline void SayFoo() { printf("Foo"); }
+	void SayFoo() { printf("Foo"); }
 };

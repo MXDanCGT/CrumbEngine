@@ -6,10 +6,8 @@ namespace Crumb
 	{
 		printf("Womp");
 	}
-	InputEvent::InputEvent(std::function<void()> Callback, EInputAction GivenAction)
+	InputEvent::InputEvent(std::function<void()> Callback)
 	{
-		m_Action = GivenAction;
-
 		m_Event = Event();
 		m_Event.SetCallback(Callback);
 	}

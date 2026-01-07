@@ -10,6 +10,7 @@ struct GLFWmonitor;
 namespace Crumb {
 
 	class MInputManager;
+	class MInputManager_GLFW;
 
 	/*
 	* Window manager handles creation and maintenance of the window used in the game / engine
@@ -19,8 +20,7 @@ namespace Crumb {
 	{
 
 	public:
-
-		MWindowManager(int WindowWidth, int WindowHeight, std::string WindowName, std::shared_ptr<MInputManager> InputManager, bool Fullscreen = false); /*Specific dims window*/
+		MWindowManager(int WindowWidth, int WindowHeight, std::string WindowName, MInputManager* InputManager, bool Fullscreen = false); /*Specific dims window*/
 
 		virtual int InitWindow() = 0;
 
@@ -44,9 +44,10 @@ namespace Crumb {
 
 		std::string m_WindowName;
 
+	private:
 
 		/*Weak ptr to our input manager, allows us to see the events with key bindings and add them to the managers event queue*/
-		std::weak_ptr<MInputManager> m_InputManager;
+		MInputManager* m_InputManager;
 	};
 
 	/*
@@ -60,11 +61,13 @@ namespace Crumb {
 	{
 	public:
 
-		MWindowManager_GLFW(int WindowWidth, int WindowHeight, std::string WindowName, std::shared_ptr<MInputManager> InputManager, bool Fullscreen = false);
+		MWindowManager_GLFW(int WindowWidth, int WindowHeight, std::string WindowName, MInputManager* InputManager, bool Fullscreen = false);
 		virtual ~MWindowManager_GLFW();
 
 		/*Initialise our main window with GLFW*/
 		virtual int InitWindow() override;
+
+
 
 		/*Update the window GLFW implementation*/
 		virtual void UpdateWindow() override;
@@ -92,5 +95,7 @@ namespace Crumb {
 
 		/*GLFW monitor ptr for where we put those windows*/
 		GLFWmonitor* m_Monitor;
+
+		MInputManager_GLFW* m_InputManager;
 	};
 }

@@ -1,23 +1,19 @@
 #pragma once
-
+#include "InputCodes.h"
 #include "Core/Event.h"
-
-/*
-* Input actions are events we bind key presses to in an abstracted way so as to remain platform independent
-*/
-
 
 
 namespace Crumb
 {
-	enum EInputCode; //Forward decl
-	enum EInputAction;
 
+	/*
+	* Input actions are events we bind key presses to in an abstracted way so as to remain platform independent
+	*/
 	class InputEvent
 	{
 	public:
 		InputEvent();
-		InputEvent(std::function<void()> Callback, EInputAction GivenAction);
+		InputEvent(std::function<void()> Callback);
 		~InputEvent();
 
 
@@ -25,7 +21,7 @@ namespace Crumb
 		void CallEvent();
 
 		/*Action needed on our bound key to trigger this event*/
-		EInputAction m_Action;
+		InputActionCode m_Action;
 
 	private:
 

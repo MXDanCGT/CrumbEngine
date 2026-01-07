@@ -43,7 +43,7 @@ namespace Crumb
 		std::unique_ptr<MWindowManager> m_WindowManager;
 
 		/*shared ptr so we can pass a weak ptr to the window manager... ?*/
-		std::shared_ptr<MInputManager> m_InputManager;
+		MInputManager* m_InputManager;
 
 	};
 

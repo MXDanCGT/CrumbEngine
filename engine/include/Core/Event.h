@@ -22,6 +22,7 @@ namespace Crumb
 
 	private:
 
+		/*Function pointer called on this events' callback*/
 		std::function<void()> m_Callback;
 	
 	};
