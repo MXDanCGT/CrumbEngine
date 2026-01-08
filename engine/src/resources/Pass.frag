@@ -1,14 +1,15 @@
 //PASSTHROUGH PIXEL SHADER
 
+#version 400
 
 //IN
 in vec3 InCol;
 
 //OUT
-out vec3 OutCol;
+out vec4 OutCol;
 
 
 void main(void)
 {
-	OutCol = vec4(InCol, 1.f);
+	OutCol = vec4(1.f,0.f,0.f, 1.f);
 }

@@ -10,6 +10,7 @@ namespace Crumb
 {
 	BaseShader::BaseShader()
 	{
+		ProgramNumber = 0;
 	}
 
 	BaseShader::~BaseShader()
@@ -32,7 +33,7 @@ namespace Crumb
 		if (!Out)
 		{
 			glGetShaderInfoLog(ProgramNumber, 512, NULL, Log);
-			std::cerr << "ERROR SHADER COMPILATION FAILED\n" << Log << "\n";
+			std::cout << "ERROR SHADER COMPILATION FAILED\n" << Log << "\n";
 		}
 		return Out;
 	}
@@ -42,8 +43,9 @@ namespace Crumb
 	{
 		int ShaderNum = glCreateShader(ShaderType);
 		glShaderSource(ShaderNum, 1, &ShaderFileCode, NULL);
-		glCompileShader(ShaderNum);
 
+
+		glCompileShader(ShaderNum);
 
 		PrintShaderCompileStatus(ShaderNum);
 
@@ -55,7 +57,7 @@ namespace Crumb
 		std::ifstream ShaderFile(FilePath);
 		if (!ShaderFile.is_open())
 		{
-			std::cerr << "ERROR SHADER FILE NOT FOUND: " << FilePath << "\n";
+			std::cout << "ERROR SHADER FILE NOT FOUND: " << FilePath << "\n";
 		}
 
 		std::stringstream FileBuffer;
@@ -72,14 +74,17 @@ namespace Crumb
 		int VSNum = CompileShader(VertexCode.c_str(), GL_VERTEX_SHADER);
 		int FSNum = CompileShader(FragmentCode.c_str(), GL_FRAGMENT_SHADER);
 
-		int ProgNum = glCreateProgram();
-		glAttachShader(ProgNum, VSNum);
-		glAttachShader(ProgNum, FSNum);
+		ProgramNumber = glCreateProgram();
+		glAttachShader(ProgramNumber, VSNum);
+		glAttachShader(ProgramNumber, FSNum);
+		glLinkProgram(ProgramNumber);
 
-		assert(PrintShaderCompileStatus(ProgNum));
+		assert(PrintShaderCompileStatus(ProgramNumber));
 
 		
 		//We can now delete the shader objects, they are compiled in the program, we no longer depend on them...
+		glDetachShader(ProgramNumber, VSNum);
+		glDetachShader(ProgramNumber, FSNum);
 
 		glDeleteShader(VSNum);
 		glDeleteShader(FSNum);

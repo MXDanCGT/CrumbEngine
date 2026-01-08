@@ -1,6 +1,7 @@
 #pragma once
 #include "pch.h"
 
+#include "World/Chunk.h"
 
 //FORWARD DECLS
 
@@ -28,7 +29,7 @@ namespace Crumb {
 		virtual int InitWindow() = 0;
 
 		/*Update window, poll window events*/
-		virtual void UpdateWindow() = 0;
+		virtual void UpdateWindow(std::unordered_map<int, struct FChunk*> Chunks) = 0;
 
 		/*Helper function to get if the window should close i.e.: if we should stop the game loop*/
 		virtual bool bShouldCloseWindow() = 0; 
@@ -74,7 +75,7 @@ namespace Crumb {
 		virtual int InitWindow() override;
 
 		/*Update the window GLFW implementation*/
-		virtual void UpdateWindow() override;
+		virtual void UpdateWindow(std::unordered_map<int, struct FChunk*> Chunks) override;
 
 		/*GLFW keypress callback function - accesses input manager, and bindings as defined by the application programmer*/
 		static void ManageInput(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -101,7 +102,9 @@ namespace Crumb {
 		GLFWmonitor* m_Monitor;
 
 		MInputManager_GLFW* m_InputManager;
+	
 
 		std::unique_ptr<MRenderer_GL> m_Renderer;
+
 	};
 }

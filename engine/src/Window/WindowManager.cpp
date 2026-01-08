@@ -71,7 +71,10 @@ namespace Crumb
 		MInputManager_GLFW* Test = (MInputManager_GLFW*)glfwGetWindowUserPointer(m_Window);
 
 		assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)); 
-	
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+		m_Renderer->Init();
+
 		return 0;
 	}
 
@@ -95,10 +98,13 @@ namespace Crumb
 			InputManager->LogInputEvent(key, action, mods);
 	}
 
-	void MWindowManager_GLFW::UpdateWindow()
+	void MWindowManager_GLFW::UpdateWindow(std::unordered_map<int, struct FChunk*> Chunks)
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
-		//m_Renderer->Update();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+		m_Renderer->Update(Chunks);
+
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();
 	}

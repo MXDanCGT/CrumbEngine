@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-
+#include "World/Chunk.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -19,11 +19,17 @@ namespace Crumb
 
 		virtual bool Init(const char* VertexShaderFile, const char* FragmentShaderFile) = 0;
 
+
+		inline int GetID() { return ProgramNumber; }
 	protected:
 
 		/*Compile a given shader*/
 		virtual int CompileShader(const char* ShaderFileCode, GLenum Type) = 0;
 
+		/*Render a passed in chunk to the screen*/
+		//virtual void RenderChunk(FChunk* Chunk, );
+
+		int ProgramNumber;
 	};
 
 

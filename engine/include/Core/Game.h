@@ -4,6 +4,7 @@
 #include "Platform.h"
 #include "Window/WindowManager.h"
 #include "Input/InputManager.h"
+#include "World/World.h"
 
 namespace Crumb
 {
@@ -44,6 +45,9 @@ namespace Crumb
 
 		/*shared ptr so we can pass a weak ptr to the window manager... ?*/
 		MInputManager* m_InputManager;
+
+		/*The game world*/
+		std::unique_ptr<World> m_World;
 
 	};
 

@@ -1,6 +1,6 @@
 //PASSTHROUGH VERTEX SHADER
 
-
+#version 400
 
 //IN
 in vec3 InPos;
