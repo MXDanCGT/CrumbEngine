@@ -1,5 +1,7 @@
 #include "Renderer/Renderer.h"
 
+#include "glm/glm.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 #include "Shaders/BaseShader.h"
 #include <filesystem>
 #include <iostream>
@@ -33,6 +35,42 @@ namespace Crumb {
 		//Based on the input loaded chunks, we will draw cubes for them 
 		//TEMP - FOR NOW UNTILL WE GET TEXTURES BLOCKS WILL BE A SINGLE COLOUR TO REPRESENT THEM (DICTIONARY IN SHADERS)
 		glUseProgram(PassShader->GetID());
+
+		// Projection matrix: 45° Field of View, 4:3 ratio, display range: 0.1 unit <-> 100 units
+		glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 100.f / 100.f, 0.1f, 100.0f);
+
+		// Or, for an ortho camera:
+		//glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
+
+		// Camera matrix
+		glm::mat4 View = glm::lookAt(
+			glm::vec3(4, 3, 3), // Camera is at (4,3,3), in World Space
+			glm::vec3(0, 0, 0), // and looks at the origin
+			glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
+		);
+
+
+		glm::mat4 Model = glm::mat4(1.0f);
+
+
+		unsigned int MWLoc = glGetUniformLocation(PassShader->GetID(), "MatWorld");
+		if (MWLoc == -1)
+			assert(false); //shite.
+
+		glUniformMatrix4fv(MWLoc, 1, false, &Model[0][0]);
+
+		unsigned int MVLoc = glGetUniformLocation(PassShader->GetID(), "MatView");
+		if (MVLoc == -1)
+			assert(false); //shite.
+	
+		glUniformMatrix4fv(MVLoc, 1, false, &Model[0][0]);
+
+		unsigned int MPLoc = glGetUniformLocation(PassShader->GetID(), "MatProj");
+		if (MPLoc == -1)
+			assert(false); //shite.
+
+		glUniformMatrix4fv(MPLoc, 1, false, &Model[0][0]);
+
 		static const GLfloat g_vertex_buffer_data[] = {
 			-1.0f, -1.0f, 0.0f,
 			1.0f, -1.0f, 0.0f,
@@ -60,7 +98,6 @@ namespace Crumb {
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glDisableVertexAttribArray(0);
 	}
-
 
 	void MRenderer_GL::Init()
 	{

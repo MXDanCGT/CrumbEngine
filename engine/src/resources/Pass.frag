@@ -2,9 +2,6 @@
 
 #version 400
 
-//IN
-in vec3 InCol;
-
 //OUT
 out vec4 OutCol;
 

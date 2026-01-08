@@ -20,12 +20,14 @@ namespace Crumb
 
 		m_World = std::make_unique<World>();
 
+
+		m_MainCamera = std::make_unique<Camera>();
+
 		printf("Game object initialised\n");
 	}
 
 	Game::~Game()
 	{
-
 	}
 
 	int Game::Init()

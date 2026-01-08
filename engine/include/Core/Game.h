@@ -5,6 +5,7 @@
 #include "Window/WindowManager.h"
 #include "Input/InputManager.h"
 #include "World/World.h"
+#include "Core/Camera.h"
 
 namespace Crumb
 {
@@ -48,6 +49,9 @@ namespace Crumb
 
 		/*The game world*/
 		std::unique_ptr<World> m_World;
+
+		/*All games have a camera - TODO APP PROG CAN OVERRIDE THIS*/
+		std::unique_ptr<Camera> m_MainCamera;
 
 	};
 

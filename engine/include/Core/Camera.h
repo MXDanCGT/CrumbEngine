@@ -2,6 +2,8 @@
 
 #include "pch.h"
 
+//#include "glm/glm.hpp"
+
 namespace Crumb
 {
 	/*
@@ -13,7 +15,14 @@ namespace Crumb
 
 		Camera();
 
-		glm::mat4
+		//glm::mat4 GetViewMatrix();
+
+	protected:
+
+		//glm::vec3 CameraPosition;
+		//glm::vec3 CameraLookAt;
+		//glm::vec3 CameraUp;
+
 	};
 
 }
