@@ -36,6 +36,9 @@ namespace Crumb
 		inline glm::vec3 GetRight() { return m_CameraRight; }
 		inline void SetRight(glm::vec3 GivenRight) { m_CameraRight = GivenRight; }
 
+
+		void RotateCamera(glm::vec3 GivenRot);
+
 	protected:
 
 		glm::vec3 m_CameraPosition;
@@ -43,6 +46,10 @@ namespace Crumb
 		glm::vec3 m_CameraUp;
 
 		glm::vec3 m_CameraRight;
+
+		//ROLL, PITCH, YAW
+		/*Wheres our camera facing? default (i.e.: 0,0,0) is looking in direction (1,0,0)*/
+		glm::vec3 m_CameraRotation;
 
 		/*Field of view of the camera*/
 		float m_FOV;

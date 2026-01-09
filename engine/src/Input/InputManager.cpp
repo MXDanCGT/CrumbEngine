@@ -89,12 +89,10 @@ namespace Crumb
 		}
 	}
 
-
-
 	void MInputManager_GLFW::LogMouseMove(double XPos, double YPos)
 	{
 		MInputManager::LogMouseMove(XPos, YPos, m_MousePos);
-		m_MousePos = new double[2] { XPos, YPos}; //Does this memory leak?
+		m_MousePos = new double[2] { XPos, YPos };
 	}
 
 	void MInputManager::Update()

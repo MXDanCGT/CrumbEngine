@@ -1,5 +1,9 @@
 #include "MorgCraft.h"
 
+#include <algorithm>
+#include <cstdint>
+#include <iomanip>
+#include <iostream>
 
 using namespace Crumb;
 
@@ -38,12 +42,16 @@ void MorgCraft::Tick(float DeltaTime)
 
 void MorgCraft::LookCameraLeftRight(float LR)
 {
-	printf("\n X Offset of - %f \n", LR);
+	//Can we get away with just changing camera direction?
+
+	m_MainCamera->RotateCamera({0.f, 0.f, LR * Delta * 100.f});
+	
 }
 
 void MorgCraft::LookCameraUpDown(float UD)
 {
-	printf("\n Y Offset of - %f \n", UD);
+	//Clamped to avoid Gimbal lock + - so its the way youd expect
+	m_MainCamera->RotateCamera({ 0.f, std::clamp(-UD * Delta * 100.f, -89.f, 89.f), 0.f });
 }
 
 

@@ -70,6 +70,7 @@ namespace Crumb
 		m_MousePosition = new double[2] {X, Y};
 
 		glfwSetKeyCallback(m_Window, ManageKeyboardInput);
+		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); //Dont want to actually see the mouse
 		glfwSetMouseButtonCallback(m_Window, ManageMouseInput); //Essentially same as the keyboard input
 		glfwSetCursorPosCallback(m_Window, ManageMouseMovement);
 
