@@ -20,6 +20,10 @@ public:
 	void SayFoo() { printf("Foo"); }
 
 
+	void LookCameraLeftRight(float LR);
+
+	void LookCameraUpDown(float UD);
+
 	/*TODO this is a mess, allow us to have an axis value passed in to our bound functions*/
 	void MoveCameraForward();
 	void MoveCameraBack();

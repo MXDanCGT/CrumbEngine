@@ -13,6 +13,25 @@ namespace Crumb
 	/*Crumb key defs as before for the type of input, i.e.: pressed / released*/
 	typedef unsigned char InputActionCode;
 
+
+	/*Again these are all as they are in gl / glfw (other libraries would have a dictionary, for ease sake we're just gonna have the exact same input codes*/
+	constexpr InputKeyCode CRUMB_MOUSE_BUTTON_1 = 0;
+	constexpr InputKeyCode CRUMB_MOUSE_BUTTON_2 = 1;
+	constexpr InputKeyCode CRUMB_MOUSE_BUTTON_3 = 2;
+	constexpr InputKeyCode CRUMB_MOUSE_BUTTON_4 = 3;
+	constexpr InputKeyCode CRUMB_MOUSE_BUTTON_5 = 4;
+	constexpr InputKeyCode CRUMB_MOUSE_BUTTON_6 = 5;
+	constexpr InputKeyCode CRUMB_MOUSE_BUTTON_7 = 6;
+	constexpr InputKeyCode CRUMB_MOUSE_BUTTON_8 = 7;
+	constexpr InputKeyCode CRUMB_MOUSE_BUTTON_LAST = CRUMB_MOUSE_BUTTON_8;
+	constexpr InputKeyCode CRUMB_MOUSE_BUTTON_LEFT = CRUMB_MOUSE_BUTTON_1;
+	constexpr InputKeyCode CRUMB_MOUSE_BUTTON_RIGHT = CRUMB_MOUSE_BUTTON_2;
+	constexpr InputKeyCode CRUMB_MOUSE_BUTTON_MIDDLE = CRUMB_MOUSE_BUTTON_3;
+
+	//So this feels a bit like a hack, our input event system needs a number to represent the input, so we're assigning the same for MOUSE_X and MOUSE_Y
+	constexpr InputKeyCode CRUMB_MOUSE_X_AXIS = 500;
+	constexpr InputKeyCode CRUMB_MOUSE_Y_AXIS = 501;
+
 	//DEAR GOD HELP
 	constexpr InputKeyCode CRUMB_SPACE = 32;
 	constexpr InputKeyCode CRUMB_APOSTROPHE = 39; /* ' */
@@ -31,7 +50,7 @@ namespace Crumb
 	constexpr InputKeyCode CRUMB_8 = 56; /* 8 */
 	constexpr InputKeyCode CRUMB_9 = 57; /* 9 */
 	constexpr InputKeyCode CRUMB_SEMICOLON = 59;  /* ; */
-	constexpr InputKeyCode CRUMB_EQUALs = 61; /* = */
+	constexpr InputKeyCode CRUMB_EQUALS = 61; /* = */
 	constexpr InputKeyCode CRUMB_A = 65; /* A */
 	constexpr InputKeyCode CRUMB_B = 66; /* B */
 	constexpr InputKeyCode CRUMB_C = 67; /* C */

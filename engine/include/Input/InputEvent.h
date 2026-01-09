@@ -14,6 +14,7 @@ namespace Crumb
 	public:
 		InputEvent();
 		InputEvent(std::function<void()> Callback);
+		InputEvent(std::function<void(float)> Callback);
 		~InputEvent();
 
 
@@ -23,10 +24,15 @@ namespace Crumb
 		/*Action needed on our bound key to trigger this event*/
 		InputActionCode m_Action;
 
+
+		void SetAxisValue(float G);
+
 	private:
 
 		/*What do we actually want to do when this input is met?*/
 		Event m_Event;
 
 	};
+
+
 }

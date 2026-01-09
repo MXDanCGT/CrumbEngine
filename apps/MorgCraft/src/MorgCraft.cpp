@@ -17,6 +17,9 @@ MorgCraft::MorgCraft(int ScreenHeight, int ScreenWidth, std::string WindowName, 
 
 	m_InputManager->BindInputEvent<MorgCraft>(&MorgCraft::MoveCameraUp, this, CRUMB_E, CRUMB_PRESSED);
 	m_InputManager->BindInputEvent<MorgCraft>(&MorgCraft::MoveCameraDown, this, CRUMB_Q, CRUMB_PRESSED);
+
+	m_InputManager->BindInputEvent<MorgCraft>(&MorgCraft::LookCameraLeftRight, this, CRUMB_MOUSE_X_AXIS, CRUMB_PRESSED);
+	m_InputManager->BindInputEvent<MorgCraft>(&MorgCraft::LookCameraUpDown, this, CRUMB_MOUSE_Y_AXIS, CRUMB_PRESSED);
 }
 
 MorgCraft::~MorgCraft()
@@ -31,6 +34,20 @@ void MorgCraft::Tick(float DeltaTime)
 	//Your game loop functionality goes here
 	Delta = DeltaTime;
 }
+
+
+void MorgCraft::LookCameraLeftRight(float LR)
+{
+	printf("\n X Offset of - %f \n", LR);
+}
+
+void MorgCraft::LookCameraUpDown(float UD)
+{
+	printf("\n Y Offset of - %f \n", UD);
+}
+
+
+
 /*
 * TEMP SERVICABLE DEBUG MOVEMENTS...
 */

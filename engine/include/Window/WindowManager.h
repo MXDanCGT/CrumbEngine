@@ -50,6 +50,9 @@ namespace Crumb {
 
 		std::string m_WindowName;
 
+		/*Position of the mouse - set to whatever ur Window managers variation of get mouse position is on game start*/
+		double* m_MousePosition;
+
 	private:
 
 		/*Weak ptr to our input manager, allows us to see the events with key bindings and add them to the managers event queue*/
@@ -80,7 +83,12 @@ namespace Crumb {
 		virtual void UpdateWindow(std::unordered_map<int, struct FChunk*> Chunks, Camera* GameCamera) override;
 
 		/*GLFW keypress callback function - accesses input manager, and bindings as defined by the application programmer*/
-		static void ManageInput(GLFWwindow* window, int key, int scancode, int action, int mods);
+		static void ManageKeyboardInput(GLFWwindow* window, int key, int scancode, int action, int mods);
+		/*As above for mouse buttons*/
+		static void ManageMouseInput(GLFWwindow* window, int button, int action, int mods);
+
+		/*Managing mouse axis movement*/
+		static void ManageMouseMovement(GLFWwindow* window, double XPos, double YPos);
 
 		/*Get whether or not the game window should stay open - used in game loop running*/
 		virtual bool bShouldCloseWindow() override;

@@ -17,7 +17,6 @@ namespace Crumb
 
 		m_Fullscreen = Fullscreen;
 		m_InputManager = InputManager;
-
 	}
 
 	MWindowManager_GLFW::MWindowManager_GLFW(int WindowWidth, int WindowHeight, std::string WindowName, MInputManager* InputManager, bool Fullscreen) : MWindowManager::MWindowManager(WindowWidth, WindowHeight, WindowName, InputManager, Fullscreen)
@@ -65,14 +64,20 @@ namespace Crumb
 		
 		glfwSetWindowUserPointer(m_Window, (void*)m_InputManager);
 
-		glfwSetKeyCallback(m_Window, ManageInput);
+		double X;
+		double Y;
+		glfwGetCursorPos(m_Window, &X, &Y);
+		m_MousePosition = new double[2] {X, Y};
+
+		glfwSetKeyCallback(m_Window, ManageKeyboardInput);
+		glfwSetMouseButtonCallback(m_Window, ManageMouseInput); //Essentially same as the keyboard input
+		glfwSetCursorPosCallback(m_Window, ManageMouseMovement);
 
 		glfwMakeContextCurrent(m_Window);
 
 		glfwSetFramebufferSizeCallback(m_Window, SizeCallback);
 
 		MInputManager_GLFW* Test = (MInputManager_GLFW*)glfwGetWindowUserPointer(m_Window);
-
 
 
 		assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)); 
@@ -88,7 +93,7 @@ namespace Crumb
 		glViewport(0, 0, Width, Height);
 	}
 
-	void MWindowManager_GLFW::ManageInput(GLFWwindow* window, int key, int scancode, int action, int mods)
+	void MWindowManager_GLFW::ManageKeyboardInput(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
 		//FROM HERE
 		//We want to take this key and see if it matches any input key bindings in our input manager
@@ -106,6 +111,27 @@ namespace Crumb
 
 		if(InputManager)
 			InputManager->LogInputEvent(key, action, mods);
+	}
+
+	void MWindowManager_GLFW::ManageMouseMovement(GLFWwindow* window, double XPos, double YPos)
+	{
+		//Because this is a static function and I dont have time to get something elegant we're just gonna pass straight to the input manager...
+		MInputManager_GLFW* InputManager = nullptr;
+		InputManager = (MInputManager_GLFW*)glfwGetWindowUserPointer(window);
+
+		if (InputManager)
+			InputManager->LogMouseMove(XPos, YPos); //Here we call GLFW implem which calls Super
+
+	}
+
+	void MWindowManager_GLFW::ManageMouseInput(GLFWwindow* window, int button, int action, int mods)
+	{
+		MInputManager_GLFW* InputManager = nullptr;
+		InputManager = (MInputManager_GLFW*)glfwGetWindowUserPointer(window);
+
+		GLFW_MOUSE_BUTTON_RIGHT;
+		if (InputManager)
+			InputManager->LogInputEvent(button, action, mods);
 	}
 
 	void MWindowManager_GLFW::UpdateWindow(std::unordered_map<int, struct FChunk*> Chunks, Camera* GameCamera)

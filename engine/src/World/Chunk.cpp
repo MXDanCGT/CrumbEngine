@@ -90,7 +90,7 @@ namespace Crumb
 
 					//At this point we will know what faces we want to render, now we just need to add these faces to the VBO/VAO/VEO
 
-					if (Faces[0] == 1)
+					if (Faces[0] == 1) //+X
 					{
 						Verts.push_back({ x + 1, y,   z + 1 });
 						Verts.push_back({ x + 1, y,   z });
@@ -99,7 +99,7 @@ namespace Crumb
 
 						AddIndexes();
 					}
-					if (Faces[1] == 1)
+					if (Faces[1] == 1) //_X
 					{
 						Verts.push_back({ x, y, z + 1 });
 						Verts.push_back({ x, y, z });
@@ -109,7 +109,7 @@ namespace Crumb
 						AddIndexes();
 					}
 
-					if (Faces[2] == 1)
+					if (Faces[2] == 1) //+y
 					{
 						Verts.push_back({ x,   y + 1, z + 1 });
 						Verts.push_back({ x + 1, y + 1, z + 1 });
@@ -118,7 +118,7 @@ namespace Crumb
 
 						AddIndexes();
 					}
-					if (Faces[3] == 1)
+					if (Faces[3] == 1) //-y
 					{
 						Verts.push_back({ x,   y, z });
 						Verts.push_back({ x + 1, y, z });
@@ -128,7 +128,7 @@ namespace Crumb
 						AddIndexes();
 					}
 						
-					if (Faces[4] == 1)
+					if (Faces[4] == 1) //+z
 					{
 						Verts.push_back({ x, y,  z + 1 });
 						Verts.push_back({ x + 1, y,  z + 1 });
@@ -137,7 +137,7 @@ namespace Crumb
 
 						AddIndexes();
 					}
-					if (Faces[5] == 1)
+					if (Faces[5] == 1) //-z
 					{
 						Verts.push_back({ x, y,  z });
 						Verts.push_back({ x + 1, y,  z });
