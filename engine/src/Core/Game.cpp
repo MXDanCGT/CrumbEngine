@@ -18,7 +18,7 @@ namespace Crumb
 			break;
 		}
 
-		m_World = std::make_unique<World>();
+		//World must only be constructed on Init, after window has been init!
 
 
 		m_MainCamera = std::make_unique<Camera>();
@@ -32,8 +32,14 @@ namespace Crumb
 
 	int Game::Init()
 	{
+		if (m_WindowManager->InitWindow() != 0)
+			return -1;
+
+
+		m_World = std::make_unique<World>();
 		m_World->GenerateWorld();
-		return 	m_WindowManager->InitWindow();;
+
+		return 0;
 	}
 
 	bool Game::ShouldCloseGame()

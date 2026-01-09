@@ -15,8 +15,9 @@ namespace Crumb
 		std::cout << "Memory pool for world reserved of size: " << MemPool->m_ChunkCount * sizeof(FChunk) << " bytes \n";
 		LoadedChunks = {};
 
-		if (bAutoGenerate)
-			GenerateWorld();
+		//Fix cos shit was hitting the fan
+		//if (bAutoGenerate)
+		//	GenerateWorld();
 	}
 
 
@@ -27,6 +28,7 @@ namespace Crumb
 
 	FChunk* World::LoadChunk(int PosX, int PosY, int PosZ)
 	{
+		//NTS - MINECRAFT LOADS / UNLOADS CHUNKS EVERY TIME AN "UPDATE" HAPPENS 
 		int PosPull = PackPosition(PosX, PosY, PosZ);
 
 		//If this chunks already in our loaded chunks, return it
@@ -41,7 +43,8 @@ namespace Crumb
 		//Offset position by 8 in each axis we want to from the centre of the world
 		//TODO INIT LOGIC, IF THIS IS GENERATE WORLD USE SEED ELSE READ FROM A FILE TODO SAVING ETC. ETC.
 
-		NewChunk->WorldPos = { PosX, PosY, PosZ };
+		NewChunk->m_WorldPos = { PosX, PosY, PosZ };
+		NewChunk->CreateChunkMesh(); //Create our chunk mesh after its been loaded...
 		LoadedChunks[PosPull] = NewChunk;
 
 		return NewChunk;

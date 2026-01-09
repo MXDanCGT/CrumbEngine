@@ -15,7 +15,7 @@ namespace Crumb
 	public:
 
 	
-		World(bool bAutoGenerate = true);
+		World(bool bAutoGenerate = false);
 		~World();
 
 		virtual void GenerateWorld();
@@ -60,6 +60,7 @@ namespace Crumb
 				OutZ -= (1 << 26);
 
 		}
+
 	private:
 
 		/**
