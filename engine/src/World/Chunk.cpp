@@ -92,38 +92,38 @@ namespace Crumb
 
 					if (Faces[0] == 1)
 					{
-						Verts.push_back({ x + 1, y, z + 1 });
-						Verts.push_back({ x + 1, y, z });
-						Verts.push_back({ x + 1, y + 1, 0 });
-						Verts.push_back({ x + 1, y +1, z +1 });
+						Verts.push_back({ x + 1, y,   z + 1 });
+						Verts.push_back({ x + 1, y,   z });
+						Verts.push_back({ x + 1, y + 1, z });
+						Verts.push_back({ x + 1, y + 1, z + 1 });
 
 						AddIndexes();
 					}
 					if (Faces[1] == 1)
 					{
-						Verts.push_back({ x - 1, y, z + 1 });
-						Verts.push_back({ x - 1, y, z });
-						Verts.push_back({ x - 1, y + 1, 0 });
-						Verts.push_back({ x - 1, y + 1, z + 1 });
+						Verts.push_back({ x, y, z + 1 });
+						Verts.push_back({ x, y, z });
+						Verts.push_back({ x, y + 1, z });
+						Verts.push_back({ x, y + 1, z + 1 });
 
 						AddIndexes();
 					}
 
 					if (Faces[2] == 1)
 					{
-						Verts.push_back({x, y + 1, z + 1 });
-						Verts.push_back({x + 1, y + 1, z });
-						Verts.push_back({x + 1, y + 1, z });
-						Verts.push_back({x, y + 1, z + 1 });
+						Verts.push_back({ x,   y + 1, z + 1 });
+						Verts.push_back({ x + 1, y + 1, z + 1 });
+						Verts.push_back({ x + 1, y + 1, z });
+						Verts.push_back({ x,   y + 1, z });
 
 						AddIndexes();
 					}
 					if (Faces[3] == 1)
 					{
-						Verts.push_back({ x, y - 1, z + 1 });
-						Verts.push_back({ x + 1, y - 1, z });
-						Verts.push_back({ x + 1, y - 1, z });
-						Verts.push_back({ x, y - 1, z + 1 });
+						Verts.push_back({ x,   y, z });
+						Verts.push_back({ x + 1, y, z });
+						Verts.push_back({ x + 1, y, z + 1 });
+						Verts.push_back({ x,   y, z + 1 });
 
 						AddIndexes();
 					}
@@ -139,10 +139,10 @@ namespace Crumb
 					}
 					if (Faces[5] == 1)
 					{
-						Verts.push_back({ x, y,  z - 1 });
-						Verts.push_back({ x + 1, y,  z - 1 });
-						Verts.push_back({ x + 1, y + 1,  z - 1 });
-						Verts.push_back({ x, y + 1,  z - 1 });
+						Verts.push_back({ x, y,  z });
+						Verts.push_back({ x + 1, y,  z });
+						Verts.push_back({ x + 1, y + 1,  z });
+						Verts.push_back({ x, y + 1,  z });
 
 						AddIndexes();
 					}
@@ -160,7 +160,7 @@ namespace Crumb
 		);
 
 		glBufferData(
-			GL_ELEMENT_ARRAY_BUFFER,
+			GL_ELEMENT_ARRAY_BUFFER, 
 			Indices.size() * sizeof(unsigned int),
 			Indices.data(),
 			GL_STATIC_DRAW
@@ -178,14 +178,15 @@ namespace Crumb
 
 	void FChunk::AddIndexes()
 	{
-		Indices.push_back(m_FaceCount + 0);
-		Indices.push_back(m_FaceCount + 1);
-		Indices.push_back(m_FaceCount + 2);
-		Indices.push_back(m_FaceCount + 2);
-		Indices.push_back(m_FaceCount + 3);
-		Indices.push_back(m_FaceCount + 0);
+		uint32_t FaceCount = static_cast<uint32_t>(Verts.size()) - 4;
 
-		m_FaceCount += 6;
+		Indices.push_back(FaceCount + 0);
+		Indices.push_back(FaceCount + 1);
+		Indices.push_back(FaceCount + 2);
+		Indices.push_back(FaceCount + 2);
+		Indices.push_back(FaceCount + 3);
+		Indices.push_back(FaceCount + 0);
+
 	}
 
 	glm::mat4 FChunk::GetWorldMat()

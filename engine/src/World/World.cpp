@@ -11,7 +11,7 @@ namespace Crumb
 
 	World::World(bool bAutoGenerate)
 	{
-		MemPool = new MemChunk<FChunk>(4);
+		MemPool = new MemChunk<FChunk>(1);
 		std::cout << "Memory pool for world reserved of size: " << MemPool->m_ChunkCount * sizeof(FChunk) << " bytes \n";
 		LoadedChunks = {};
 
@@ -66,11 +66,11 @@ namespace Crumb
 	{
 		//FOR NOW, we are just gonna do the mem allocation and hard code a chunk
 
-		//Make 4 chunks!
+		//Make 1 chunks!
 		LoadChunk(0.f, 0.f, 0.f);
-		LoadChunk(10.f, 0.f, 0.f);
-		LoadChunk(10.f, 10.f, 0.f);
-		LoadChunk(0.f,10.f,0.f);
+		//LoadChunk(10.f, 0.f, 0.f);
+		//LoadChunk(10.f, 10.f, 0.f);
+		//LoadChunk(0.f,10.f,0.f);
 	}
 
 
