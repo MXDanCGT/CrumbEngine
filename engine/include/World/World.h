@@ -32,6 +32,34 @@ namespace Crumb
 		/*Get a pointer to the chunks we should currently have loaded...*/
 		inline std::unordered_map<int, struct FChunk*> GetLoadedChunks() { return LoadedChunks; };
 
+		/*Minecraft (allegedly uses 26 bits for X / Z and 12 for Y, perfect for packing into a 64 bit int*/
+		int PackPosition(int x, int y, int z)
+		{
+			//Shift by amount
+
+			const int64_t X = x & ((1LL << 26) - 1);
+			const int64_t Y = y & ((1LL << 12) - 1);
+			const int64_t Z = z & ((1LL << 26) - 1);
+
+			return (X << (12 + 26) | (Y << 26) | Z);
+		}
+
+		void UnpackPosition(int Packed, int& OutX, int& OutY, int& OutZ)
+		{
+			//Unshift by amount
+			OutZ = static_cast<int>(Packed & ((1LL << 26) - 1));
+			OutY = static_cast<int>(Packed >> 26 & ((1LL << 12) - 1));
+			OutX = static_cast<int>(Packed >> 12 + 26 & ((1LL << 26) - 1));
+
+			//Signs
+			if (OutX >= (1 << (26 - 1)))
+				OutX -= (1 << 26);
+			if (OutY >= (1 << (12 - 1)))
+				OutY -= (1 << 12);
+			if (OutZ >= (1 << (26 - 1)))
+				OutZ -= (1 << 26);
+
+		}
 	private:
 
 		/**

@@ -27,7 +27,7 @@ namespace Crumb
 
 	FChunk* World::LoadChunk(int PosX, int PosY, int PosZ)
 	{
-		int PosPull = (PosX | PosY << 10 | PosZ << 20);
+		int PosPull = PackPosition(PosX, PosY, PosZ);
 
 		//If this chunks already in our loaded chunks, return it
 		if (LoadedChunks.find(PosPull) != LoadedChunks.end())
@@ -41,15 +41,15 @@ namespace Crumb
 		//Offset position by 8 in each axis we want to from the centre of the world
 		//TODO INIT LOGIC, IF THIS IS GENERATE WORLD USE SEED ELSE READ FROM A FILE TODO SAVING ETC. ETC.
 
-		NewChunk->ChunkPosition = PosPull;
-		LoadedChunks[NewChunk->ChunkPosition] = NewChunk;
+		NewChunk->WorldPos = { PosX, PosY, PosZ };
+		LoadedChunks[PosPull] = NewChunk;
 
 		return NewChunk;
 	}
 
 	void World::UnloadChunk(int PosX, int PosY, int PosZ)
 	{
-		int PosPull = (PosX | PosY << 10 | PosZ << 20);
+		int PosPull = PackPosition(PosX, PosY, PosZ);
 
 		auto ChunkIt = LoadedChunks.find(PosPull);
 		if (ChunkIt != LoadedChunks.end())
@@ -63,12 +63,11 @@ namespace Crumb
 	{
 		//FOR NOW, we are just gonna do the mem allocation and hard code a chunk
 
-
-		for (int i = 0; i < 4; ++i)
-		{
-			//Push on some all dirt chunks
-			LoadChunk((i / 2), (i % 2));
-		}
+		//Make 4 chunks!
+		LoadChunk(0.f, 0.f, 0.f);
+		LoadChunk(10.f, 0.f, 0.f);
+		LoadChunk(10.f, 10.f, 0.f);
+		LoadChunk(0.f,10.f,0.f);
 	}
 
 

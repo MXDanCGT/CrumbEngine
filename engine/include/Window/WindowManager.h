@@ -16,6 +16,8 @@ namespace Crumb {
 	class MRenderer;
 	class MRenderer_GL;
 
+	class Camera;
+
 	/*
 	* Window manager handles creation and maintenance of the window used in the game / engine
 	* Interface for lower level code...
@@ -29,7 +31,7 @@ namespace Crumb {
 		virtual int InitWindow() = 0;
 
 		/*Update window, poll window events*/
-		virtual void UpdateWindow(std::unordered_map<int, struct FChunk*> Chunks) = 0;
+		virtual void UpdateWindow(std::unordered_map<int, struct FChunk*> Chunks, Camera* GameCamera) = 0;
 
 		/*Helper function to get if the window should close i.e.: if we should stop the game loop*/
 		virtual bool bShouldCloseWindow() = 0; 
@@ -75,7 +77,7 @@ namespace Crumb {
 		virtual int InitWindow() override;
 
 		/*Update the window GLFW implementation*/
-		virtual void UpdateWindow(std::unordered_map<int, struct FChunk*> Chunks) override;
+		virtual void UpdateWindow(std::unordered_map<int, struct FChunk*> Chunks, Camera* GameCamera) override;
 
 		/*GLFW keypress callback function - accesses input manager, and bindings as defined by the application programmer*/
 		static void ManageInput(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -87,6 +89,9 @@ namespace Crumb {
 		virtual void Shutdown() override;
 
 	private:
+
+		/*Simple resizing function...*/
+		static void SizeCallback(GLFWwindow* Win, int Width, int Height);
 
 		/*MEMBER VARIABLES*/
 

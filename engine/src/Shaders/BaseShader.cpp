@@ -3,6 +3,8 @@
 #include <fstream>
 #include <sstream>
 
+#include "glm/glm.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -92,4 +94,20 @@ namespace Crumb
 
 		return true;
 	}
+
+
+	void BaseShader_GL::SetShaderParams(glm::mat4 WorldMatrix, glm::mat4 ViewMatrix, glm::mat4 ProjMatrix)
+	{
+		const unsigned int MWLoc = glGetUniformLocation(ProgramNumber, "MatWorld");
+		glUniformMatrix4fv(MWLoc, 1, false, &WorldMatrix[0][0]);
+
+		unsigned int MVLoc = glGetUniformLocation(ProgramNumber, "MatView");
+		glUniformMatrix4fv(MVLoc, 1, false, &ViewMatrix[0][0]);
+
+		unsigned int MPLoc = glGetUniformLocation(ProgramNumber, "MatProj");
+		glUniformMatrix4fv(MPLoc, 1, false, &ProjMatrix[0][0]);
+
+
+	}
+
 }

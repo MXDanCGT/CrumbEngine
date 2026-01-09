@@ -2,7 +2,7 @@
 
 #include "Input/InputManager.h"
 #include "Renderer/Renderer.h"
-
+#include "Core/Camera.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -68,14 +68,24 @@ namespace Crumb
 		glfwSetKeyCallback(m_Window, ManageInput);
 
 		glfwMakeContextCurrent(m_Window);
+
+		glfwSetFramebufferSizeCallback(m_Window, SizeCallback);
+
 		MInputManager_GLFW* Test = (MInputManager_GLFW*)glfwGetWindowUserPointer(m_Window);
 
+
+
 		assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)); 
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LESS);
+		//Should renderer or window manager be calling this? ^^^
+
 		m_Renderer->Init();
 
 		return 0;
+	}
+
+	void MWindowManager_GLFW::SizeCallback(GLFWwindow* Win, int Width, int Height)
+	{
+		glViewport(0, 0, Width, Height);
 	}
 
 	void MWindowManager_GLFW::ManageInput(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -98,12 +108,12 @@ namespace Crumb
 			InputManager->LogInputEvent(key, action, mods);
 	}
 
-	void MWindowManager_GLFW::UpdateWindow(std::unordered_map<int, struct FChunk*> Chunks)
+	void MWindowManager_GLFW::UpdateWindow(std::unordered_map<int, struct FChunk*> Chunks, Camera* GameCamera)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-		m_Renderer->Update(Chunks);
+		m_Renderer->Update(Chunks, GameCamera);
 
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();

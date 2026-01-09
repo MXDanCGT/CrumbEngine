@@ -9,7 +9,9 @@ file(GLOB_RECURSE CRUMB_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/s
 
 add_library(CrumbEngine STATIC ${CRUMB_SOURCES})
 target_include_directories(CrumbEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
-
+target_include_directories(CrumbEngine PUBLIC "${PROJECT_SOURCE_DIR}/external/glm")
+target_include_directories(CrumbEngine PUBLIC "${PROJECT_SOURCE_DIR}/external/glad")
+target_include_directories(CrumbEngine PUBLIC "${PROJECT_SOURCE_DIR}/external/glfw")
 #Add shaders to sources
 target_sources(CrumbEngine PRIVATE ${SHADERS})
 

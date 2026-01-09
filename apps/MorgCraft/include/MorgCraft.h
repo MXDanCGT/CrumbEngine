@@ -18,4 +18,16 @@ public:
 
 	/*Debug tester function for input actions...*/
 	void SayFoo() { printf("Foo"); }
+
+
+	/*TODO this is a mess, allow us to have an axis value passed in to our bound functions*/
+	void MoveCameraForward();
+	void MoveCameraBack();
+	void MoveCameraLeft();
+	void MoveCameraRight();
+
+	void MoveCameraUp();
+	void MoveCameraDown();
+
+	float Delta;
 };

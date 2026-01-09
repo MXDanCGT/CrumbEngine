@@ -3,6 +3,8 @@
 #include "pch.h"
 
 //#include "glm/glm.hpp"
+#include "glm/glm.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Crumb
 {
@@ -13,15 +15,40 @@ namespace Crumb
 	{
 	public:
 
-		Camera();
+		Camera(float FOV = 90.f, float NearClip = 0.1f, float FarClip = 100.f);
 
-		//glm::mat4 GetViewMatrix();
+		glm::mat4 GetViewMatrix();
+		glm::mat4 GetProjMatrix();
+
+		/*Move our cameras position*/
+		void MoveCamera_ForwardBackward(float FBSpeed);
+		void MoveCamera_UpDown(float UDSpeed); /*UpDown uses world axis, hence it is different...*/
+		void MoveCamera_LeftRight(float LRSPeed);
+
+
+		inline glm::vec3 GetPosition() { return m_CameraPosition; }
+		void SetPosition(glm::vec3 GivenPos) { m_CameraPosition = GivenPos; }
+
+
+		inline glm::vec3 GetDirection() { return m_CameraDirection; }
+		void SetDirection(glm::vec3 GivenDir) { m_CameraDirection = GivenDir; }
+
+		inline glm::vec3 GetRight() { return m_CameraRight; }
+		inline void SetRight(glm::vec3 GivenRight) { m_CameraRight = GivenRight; }
 
 	protected:
 
-		//glm::vec3 CameraPosition;
-		//glm::vec3 CameraLookAt;
-		//glm::vec3 CameraUp;
+		glm::vec3 m_CameraPosition;
+		glm::vec3 m_CameraDirection;
+		glm::vec3 m_CameraUp;
+
+		glm::vec3 m_CameraRight;
+
+		/*Field of view of the camera*/
+		float m_FOV;
+
+		float m_NearClip;
+		float m_FarClip;
 
 	};
 

@@ -2,6 +2,8 @@
 
 #include "pch.h"
 #include "World/Chunk.h"
+
+#include "glm/glm.hpp"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -19,6 +21,7 @@ namespace Crumb
 
 		virtual bool Init(const char* VertexShaderFile, const char* FragmentShaderFile) = 0;
 
+		virtual void SetShaderParams(glm::mat4 WorldMatrix, glm::mat4 ViewMatrix, glm::mat4 ProjMatrix) = 0;
 
 		inline int GetID() { return ProgramNumber; }
 	protected:
@@ -46,6 +49,7 @@ namespace Crumb
 
 		virtual bool Init(const char* VertexShaderFile, const char* FragmentShaderFile) override;
 
+		virtual void SetShaderParams(glm::mat4 WorldMatrix, glm::mat4 ViewMatrix, glm::mat4 ProjMatrix);
 
 		virtual int CompileShader(const char* ShaderFileCode, GLenum Type) override;
 

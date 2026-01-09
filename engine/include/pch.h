@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <chrono>
 #include <assert.h>
 #include <string>
 #include <functional>

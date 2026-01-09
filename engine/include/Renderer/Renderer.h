@@ -2,6 +2,7 @@
 
 #include "pch.h"
 
+#include "GraphicsIncludes.h"
 #include "Core/Mesh.h"
 
 /*
@@ -9,8 +10,13 @@
 * 
 * - 
 */
+
+#include "glm/glm.hpp"
+#include <glm/gtc/matrix_transform.hpp>
+
 namespace Crumb
 {
+	class Camera;
 	class BaseShader_GL;
 
 	/*We are gonna attempt using SSBOs instead of VBOs, see here: https://voxel.wiki/wiki/vertex-pulling/ */
@@ -22,7 +28,7 @@ namespace Crumb
 		MRenderer();
 		~MRenderer();
 
-		virtual void Update(std::unordered_map<int, struct FChunk*> Chunks) = 0;
+		virtual void Update(std::unordered_map<int, struct FChunk*> Chunks, Camera* Cam) = 0;
 
 		virtual void Init() = 0;
 	};
@@ -35,13 +41,13 @@ namespace Crumb
 		MRenderer_GL();
 		~MRenderer_GL();
 
-		virtual void Update(std::unordered_map<int, struct FChunk*> Chunks) override;
+		virtual void Update(std::unordered_map<int, struct FChunk*> Chunks, Camera* Cam) override;
 
 		virtual void Init() override;
 
 	private:
 
-		std::unique_ptr<Mesh> DebugCube; //TEMP SO WE CAN SEE OURSELVES SET UP
+		std::unique_ptr<Mesh> m_DebugCube; //TEMP SO WE CAN SEE OURSELVES SET UP
 
 		std::unique_ptr<BaseShader_GL> PassShader;
 	};

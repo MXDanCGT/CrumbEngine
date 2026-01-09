@@ -48,7 +48,7 @@ namespace Crumb
 	void Game::Tick(float DeltaTime)
 	{
 		//This being called means we've already handled whether or not the app should close...
-		m_WindowManager->UpdateWindow(m_World->GetLoadedChunks()); //m_Window manager also handles renderer
+		m_WindowManager->UpdateWindow(m_World->GetLoadedChunks(), m_MainCamera.get()); //m_Window manager also handles renderer
 		m_InputManager->Update();
 		m_World->Update();
 		//Go through our event queue and do it
