@@ -6,3 +6,5 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(glfw) #Window and input
 add_subdirectory(glm)
+add_subdirectory(glad)
+add_subdirectory(stb)

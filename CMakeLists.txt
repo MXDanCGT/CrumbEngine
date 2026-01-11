@@ -19,6 +19,7 @@ add_subdirectory("apps")
 add_subdirectory("external/glad")
 add_subdirectory("external/glfw")
 add_subdirectory("external/glm")
+add_subdirectory("external/stb")
 
 target_link_libraries(CrumbEngine PRIVATE glfw glad glm) #atm, this is where we link... but is this good or should this be lower down?
 
