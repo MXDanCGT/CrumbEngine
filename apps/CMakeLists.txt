@@ -16,8 +16,10 @@ set(CRUMB_APP "MorgCraft") #Set to morg craft for now..
 # - Slightly increase abstraction of the process to the application programmer:
 #				- Entry point in the engine, let the A.P. start with having to extend run NOT main...
 
-if(${CRUMB_APP} STREQUAL "MorgCraft")
-	add_subdirectory("MorgCraft")
-else() #default app load - an empty app template
-	add_subdirectory("Base")
-endif()
+add_subdirectory("MorgCraft")
+
+#if(${CRUMB_APP} STREQUAL "MorgCraft")
+	#add_subdirectory("MorgCraft")
+#else() #default app load - an empty app template
+	#add_subdirectory("Base")
+#endif()
