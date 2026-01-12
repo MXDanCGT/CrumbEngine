@@ -19,7 +19,7 @@ MorgCraft::MorgCraft(int ScreenHeight, int ScreenWidth, std::string WindowName, 
 
 
 	m_World = std::make_unique<MCWorld>();
-
+		
 	//The pitfall of doing it this way is that inputs have to belong to an entity - in this case typically the player, or maybe a controller, but all the same.
 	FCInputManager PlayerInp;
 	PlayerInp.BindInputActionEvent<MorgCraft>(this, &MorgCraft::MoveCameraForward, CRUMB_W, CRUMB_PRESSED_AND_HELD);

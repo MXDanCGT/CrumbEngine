@@ -61,6 +61,8 @@ namespace Crumb
 
 		}
 
+		//The square distance around the player that chunks are loaded in
+		int m_RenderDistance;
 	protected:
 
 		/**
@@ -76,7 +78,6 @@ namespace Crumb
 
 		/*The chunks loaded into the map - the actual pointers*/
 		std::unordered_map<int, struct FChunk*> LoadedChunks;
-
 
 
 		uint16_t RenderDistance; //Number of chunks we have loaded at once...

@@ -11,7 +11,9 @@ namespace Crumb
 
 	World::World(bool bAutoGenerate)
 	{
-		MemPool = new MemChunk<FChunk>(1);
+		m_RenderDistance = 4;
+		//If we load 4 chunks around the player
+		MemPool = new MemChunk<FChunk>(4);
 		std::cout << "Memory pool for world reserved of size: " << MemPool->m_ChunkCount * sizeof(FChunk) << " bytes \n";
 		LoadedChunks = {};
 
@@ -22,6 +24,7 @@ namespace Crumb
 
 
 	World::~World()
+
 	{
 
 	}

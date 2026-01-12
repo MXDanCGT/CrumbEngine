@@ -1,0 +1,9 @@
+#Glad cmake lists file to allow us to simply "add_subdirectory"
+
+
+cmake_minimum_required(VERSION 4.2)
+project(stb)
+
+add_library(stb)
+target_sources(stb PRIVATE "stb_image.cpp")
+target_include_directories(stb PUBLIC "stb_image.h")
