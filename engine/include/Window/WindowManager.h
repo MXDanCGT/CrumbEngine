@@ -45,7 +45,7 @@ namespace Crumb {
 		virtual void Shutdown() = 0;
 
 
-		inline static FInputEvents WindowInputs;
+		inline static FKeyStateTracker WindowInputs;
 
 	protected:
 

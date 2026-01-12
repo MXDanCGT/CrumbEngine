@@ -38,18 +38,32 @@ namespace Crumb
 	//Feature needed to add system
 	struct FInputFeature {}; //Not sure why this is the case, just as it is in ECS_HPPs example stuff
 
+
+	struct FKeyState
+	{
+		FKeyState()
+		{
+		}
+		FKeyState(int NewAction)
+		{
+			CurrentAction = NewAction;
+		}
+
+		InputActionCode CurrentAction; //We keep this constant so we can see key state even if no new input events are coming through on it
+	};
+
+	/*
+	* Keeps track of all our key states over the whole keyboard///
+	*/
+	struct FKeyStateTracker
+	{
+		std::unordered_map<InputKeyCode, FKeyState> KeyStates;
+	};
+
 	struct FInputEvent
 	{
 		InputKeyCode Key;
 		InputActionCode Action;
-	};
-
-	/*
-	* The actual "events" occuring, what is passed in to our input updates
-	*/
-	struct FInputEvents
-	{
-		std::vector<FInputEvent> InputEvents;
 	};
 
 	/*

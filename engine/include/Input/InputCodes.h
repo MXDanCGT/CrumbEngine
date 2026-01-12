@@ -156,4 +156,6 @@ namespace Crumb
 
 	constexpr InputActionCode CRUMB_RELEASED = 0;
 	constexpr InputActionCode CRUMB_PRESSED = 1;
+	constexpr InputActionCode CRUMB_HELD = 2;
+	constexpr InputActionCode CRUMB_PRESSED_AND_HELD = 3;
 }

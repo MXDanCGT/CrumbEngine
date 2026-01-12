@@ -108,13 +108,18 @@ namespace Crumb
 	
 		//Old impl ^^
 
+		//If this key is in our input events we want to update, else we want to overwrite...
+		
+
+		//for (FInputEvent i : WindowInputs.InputEvents)
+		//{
+
+		//}
 		//Push back to our input events
+	
+		//Band aid attempt to remove weird "repeat" logic
+		WindowInputs.KeyStates[key] = action; //Overwrite with the new state...
 
-		FInputEvent NewEvent;
-		NewEvent.Key = key; //GLFW key codes are identical to the crumb key codes - in a different library we'd have to create a dictionary
-		NewEvent.Action = action;
-
-		WindowInputs.InputEvents.push_back(NewEvent);
 	
 	}
 
@@ -146,10 +151,6 @@ namespace Crumb
 
 	void MWindowManager_GLFW::PostRender()
 	{
-
-		//Clear our inputs (?)
-		WindowInputs.InputEvents.clear();
-
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();
 	}

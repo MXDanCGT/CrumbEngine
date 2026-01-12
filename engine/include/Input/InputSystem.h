@@ -9,10 +9,10 @@ namespace Crumb
 	//ECS impl of input, is given a list of incoming inputs and iterates through entities that have something to do in that context...
 	
 
-	class InputSystem : public ecs_hpp::system<FInputEvents>
+	class InputSystem : public ecs_hpp::system<FKeyStateTracker>
 	{
 	public:
 
-		void process(ecs_hpp::registry& world, const FInputEvents& evt) override;
+		void process(ecs_hpp::registry& world, const FKeyStateTracker& evt) override;
 	};
 }

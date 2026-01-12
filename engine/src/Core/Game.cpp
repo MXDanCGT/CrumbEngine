@@ -79,8 +79,8 @@ namespace Crumb
 		//This being called means we've already handled whether or not the app should close...
 
 		m_WindowManager->UpdateWindow(); 
-		m_GameRegistry.process_event(FInputEvents{m_WindowManager->WindowInputs}); //Update our system based on our recieved inputs this frame
-		m_GameRegistry.process_event(FGameplayEvent{DeltaTime});
+		m_GameRegistry.process_event(FKeyStateTracker{m_WindowManager->WindowInputs}); //Update our system based on our recieved inputs this frame
+		m_GameRegistry.process_event(FGameplayEvent{DeltaTime}); //Process application programmer defined gameplay events
 		m_Renderer->Update(m_World->GetLoadedChunks(), m_MainCamera.get());
 		m_WindowManager->PostRender(); //+ inputs handled here...
 
