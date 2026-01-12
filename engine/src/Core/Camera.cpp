@@ -1,9 +1,10 @@
 #include "Core/Camera.h"
-
+#include "pch.h"
 #include "glm/glm.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <algorithm>
 
 namespace Crumb
 {
@@ -50,6 +51,9 @@ namespace Crumb
 	{
 		//Given Rot ADDED
 		m_CameraRotation += GivenRot;
+		//TODO SHOULD THIS BE IN BASE CAMERA FUNC?
+		
+		m_CameraRotation = glm::vec3(m_CameraRotation[0], std::clamp(m_CameraRotation[1], -89.f, 89.f), m_CameraRotation[2]);
 
 		//Update direction and right vecs
 		//WE DONT UPDATE UP HERE AS MOST EVERY FUNCTIONALITY WE WANT TREATS UP AS WORLD UP, TODO ALLOW CHANGES OVERRIDE ETC.

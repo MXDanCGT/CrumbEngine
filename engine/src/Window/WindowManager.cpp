@@ -14,7 +14,6 @@ namespace Crumb
 		m_WindowWidth = WindowWidth;
 		m_WindowHeight = WindowHeight;
 		m_WindowName = WindowName;
-
 		m_Fullscreen = Fullscreen;
 		//m_InputManager = InputManager;
 	}
@@ -62,7 +61,6 @@ namespace Crumb
 		}
 		
 		//glfwSetWindowUserPointer(m_Window, (void*)m_InputManager);
-
 		double X;
 		double Y;
 		glfwGetCursorPos(m_Window, &X, &Y);
@@ -89,68 +87,43 @@ namespace Crumb
 
 	void MWindowManager_GLFW::ManageKeyboardInput(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
-		//FROM HERE
-		//We want to take this key and see if it matches any input key bindings in our input manager
-		//If so add to input event queue TODO this feels a little dodgy going back and forth between systems like this..
-
-		//Circumvents need for static shit
-		//MInputManager_GLFW* InputManager = nullptr;
-		//InputManager = (MInputManager_GLFW*)glfwGetWindowUserPointer(window);
-
-		////As Crumb key numbers are the same as GLFW, we just need to find a binding in the Input manager for this number...
-
-		////And this function is only called when there IS a key input event, so we dont need to filter that.
-		////Simply pass off the key and action values
-
-
-		//if(InputManager)
-		//	InputManager->LogInputEvent(key, action, mods);
-	
-		//Old impl ^^
-
-		//If this key is in our input events we want to update, else we want to overwrite...
-		
-
-		//for (FInputEvent i : WindowInputs.InputEvents)
-		//{
-
-		//}
-		//Push back to our input events
-	
-		//Band aid attempt to remove weird "repeat" logic
-		WindowInputs.KeyStates[key] = action; //Overwrite with the new state...
+		//Overwrite the state our input system is currently reading with a new one...
+		WindowInputs_Keys.KeyStates[key] = action; //Overwrite with the new state...
 
 	
 	}
 
 	void MWindowManager_GLFW::ManageMouseMovement(GLFWwindow* window, double XPos, double YPos)
 	{
-		////Because this is a static function and I dont have time to get something elegant we're just gonna pass straight to the input manager...
-		//MInputManager_GLFW* InputManager = nullptr;
-		//InputManager = (MInputManager_GLFW*)glfwGetWindowUserPointer(window);
+		//We want to get a float value for the mouse movement...
 
-		//if (InputManager)
-		//	InputManager->LogMouseMove(XPos, YPos); //Here we call GLFW implem which calls Super
+		//REMEMBER WE SAID CRUMB X =  500, CRUMB Y = 501...
+		WindowInputs_Axis.AxisStates[500] = XPos - m_MousePosition[0];
+		WindowInputs_Axis.AxisStates[501] = YPos - m_MousePosition[1];
 
 	}
 
 	void MWindowManager_GLFW::ManageMouseInput(GLFWwindow* window, int button, int action, int mods)
 	{
-		MInputManager_GLFW* InputManager = nullptr;
-		InputManager = (MInputManager_GLFW*)glfwGetWindowUserPointer(window);
-
-		GLFW_MOUSE_BUTTON_RIGHT;
-		//if (InputManager)
-		//	InputManager->LogInputEvent(button, action, mods);
+		WindowInputs_Keys.KeyStates[button] = action; //Should work fine here too
 	}
 
 	void MWindowManager_GLFW::UpdateWindow()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//double* StupidFuckingTemp = new double[2] {0.f, 0.f};
+		glfwGetCursorPos(m_Window, &m_MousePosition[0], &m_MousePosition[1]);
+
+
+
 	}
 
 	void MWindowManager_GLFW::PostRender()
 	{
+		//Whoopsies, input updates happen AFTER update window so resetting these wouldve broke everything
+		//TODO NEED TO FIGURE OUT IF ALL AXIS MAPPINGS NEED TO BE RESET OR JUST MOUSE MOVEMENT
+		WindowInputs_Axis.AxisStates[500] = 0.f;
+		WindowInputs_Axis.AxisStates[501] = 0.f;
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();
 	}

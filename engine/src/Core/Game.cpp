@@ -36,7 +36,10 @@ namespace Crumb
 		m_MainCamera = std::make_unique<Camera>();
 
 
-		m_GameRegistry.assign_feature<FInputFeature>().add_system<InputSystem>();
+		m_GameRegistry.assign_feature<FInputFeature>()
+			.add_system<InputAxisSystem>()
+			.add_system<InputActionSystem>();
+	
 
 		printf("Game object initialised\n");
 	}
@@ -79,7 +82,8 @@ namespace Crumb
 		//This being called means we've already handled whether or not the app should close...
 
 		m_WindowManager->UpdateWindow(); 
-		m_GameRegistry.process_event(FKeyStateTracker{m_WindowManager->WindowInputs}); //Update our system based on our recieved inputs this frame
+		m_GameRegistry.process_event(FKeyStateTracker{m_WindowManager->WindowInputs_Keys}); //Update our system based on our recieved inputs this frame
+		m_GameRegistry.process_event(FAxisStateTracker{m_WindowManager->WindowInputs_Axis});
 		m_GameRegistry.process_event(FGameplayEvent{DeltaTime}); //Process application programmer defined gameplay events
 		m_Renderer->Update(m_World->GetLoadedChunks(), m_MainCamera.get());
 		m_WindowManager->PostRender(); //+ inputs handled here...

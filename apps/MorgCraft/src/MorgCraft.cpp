@@ -21,12 +21,15 @@ MorgCraft::MorgCraft(int ScreenHeight, int ScreenWidth, std::string WindowName, 
 
 	//The pitfall of doing it this way is that inputs have to belong to an entity - in this case typically the player, or maybe a controller, but all the same.
 	FCInputManager PlayerInp;
-	PlayerInp.BindInputEvent<MorgCraft>(this, &MorgCraft::MoveCameraForward, CRUMB_W, CRUMB_PRESSED_AND_HELD);
-	PlayerInp.BindInputEvent<MorgCraft>(this, &MorgCraft::MoveCameraBack, CRUMB_S, CRUMB_PRESSED_AND_HELD);
-	PlayerInp.BindInputEvent<MorgCraft>(this, &MorgCraft::MoveCameraLeft, CRUMB_A, CRUMB_PRESSED_AND_HELD);
-	PlayerInp.BindInputEvent<MorgCraft>(this, &MorgCraft::MoveCameraRight, CRUMB_D, CRUMB_PRESSED_AND_HELD);
-	PlayerInp.BindInputEvent<MorgCraft>(this, &MorgCraft::MoveCameraUp, CRUMB_E, CRUMB_PRESSED_AND_HELD);
-	PlayerInp.BindInputEvent<MorgCraft>(this, &MorgCraft::MoveCameraDown, CRUMB_Q, CRUMB_PRESSED_AND_HELD);
+	PlayerInp.BindInputActionEvent<MorgCraft>(this, &MorgCraft::MoveCameraForward, CRUMB_W, CRUMB_PRESSED_AND_HELD);
+	PlayerInp.BindInputActionEvent<MorgCraft>(this, &MorgCraft::MoveCameraBack, CRUMB_S, CRUMB_PRESSED_AND_HELD);
+	PlayerInp.BindInputActionEvent<MorgCraft>(this, &MorgCraft::MoveCameraLeft, CRUMB_A, CRUMB_PRESSED_AND_HELD);
+	PlayerInp.BindInputActionEvent<MorgCraft>(this, &MorgCraft::MoveCameraRight, CRUMB_D, CRUMB_PRESSED_AND_HELD);
+	PlayerInp.BindInputActionEvent<MorgCraft>(this, &MorgCraft::MoveCameraUp, CRUMB_E, CRUMB_PRESSED_AND_HELD);
+	PlayerInp.BindInputActionEvent<MorgCraft>(this, &MorgCraft::MoveCameraDown, CRUMB_Q, CRUMB_PRESSED_AND_HELD);
+
+	PlayerInp.BindInputAxisEvent<MorgCraft>(this, &MorgCraft::LookCameraLeftRight, CRUMB_MOUSE_X_AXIS);
+	PlayerInp.BindInputAxisEvent<MorgCraft>(this, &MorgCraft::LookCameraUpDown, CRUMB_MOUSE_Y_AXIS);
 
 	//Make a "player" entity here
 	ecs_hpp::entity PlayerEnt = m_GameRegistry.create_entity();
@@ -54,15 +57,15 @@ void MorgCraft::Tick(float DeltaTime)
 void MorgCraft::LookCameraLeftRight(float LR)
 {
 	//Can we get away with just changing camera direction?
-
-	m_MainCamera->RotateCamera({0.f, 0.f, LR * Delta * 100.f});
+	m_MainCamera->RotateCamera({0.f, 0.f, LR * Delta * 50.f});
 	
 }
 
 void MorgCraft::LookCameraUpDown(float UD)
 {
 	//Clamped to avoid Gimbal lock + - so its the way youd expect
-	m_MainCamera->RotateCamera({ 0.f, std::clamp(-UD * Delta * 100.f, -89.f, 89.f), 0.f });
+	m_MainCamera->RotateCamera({ 0.f, -UD * Delta * 50.f, 0.f });
+
 }
 
 

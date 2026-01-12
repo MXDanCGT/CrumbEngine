@@ -57,8 +57,15 @@ namespace Crumb
 	*/
 	struct FKeyStateTracker
 	{
-		std::unordered_map<InputKeyCode, FKeyState> KeyStates;
+		std::unordered_map<InputKeyCode, FKeyState> KeyStates; //Persistent...
 	};
+
+	struct FAxisStateTracker
+	{
+		std::unordered_map<InputKeyCode, float> AxisStates; //Reset every frame
+	};
+
+
 
 	struct FInputEvent
 	{
@@ -69,12 +76,12 @@ namespace Crumb
 	/*
 	* Input bindings also have a event with callback functionality...
 	*/
-	struct FInputBinding : public FInputEvent
+	struct FInputActionBinding : public FInputEvent
 	{
 
-		FInputBinding() {};
+		FInputActionBinding() {};
 
-		FInputBinding(std::function<void()> Callback, InputKeyCode InputKey, InputActionCode InputAction)
+		FInputActionBinding(std::function<void()> Callback, InputKeyCode InputKey, InputActionCode InputAction)
 		{
 			Key = InputKey;
 			Action = InputAction;
@@ -83,8 +90,26 @@ namespace Crumb
 		}
 
 
-		Event Event;
+		Event_Action Event;
 	};
+
+	struct FInputAxisBinding 
+	{
+		InputKeyCode Key; //IK mouse is  not techincally key but eh;
+
+		FInputAxisBinding() {};
+
+		FInputAxisBinding(std::function<void(float)> Callback, InputKeyCode InputKey)
+		{
+			Key = InputKey;
+
+			Event.SetCallback(Callback);
+		}
+
+
+		Event_Axis Event; //Event that will use callback type 2.. TODO SEPERATE EVENT INTO AXIS AND ACTION BINDINGS?
+	};
+
 
 	/*
 	* Component entities have that lists a number of Input Events that this entity wants to call on set bindings
@@ -94,20 +119,23 @@ namespace Crumb
 		FCInputManager()
 		{
 			InputBindings = {};
+			AxisBindings = {};
 		}
 
 		FCInputManager(FCInputManager& g)
 		{
 			InputBindings = g.InputBindings;
+			AxisBindings = g.AxisBindings;
 		}
 
 		FCInputManager(const FCInputManager& g)
 		{
 			InputBindings = g.InputBindings;
+			AxisBindings = g.AxisBindings;
 		}
 
 		template <typename T>
-		void BindInputEvent(T* Inst, void (T::* Callback)(), InputKeyCode KeyPress, InputActionCode KeyAction)
+		void BindInputActionEvent(T* Inst, void (T::* Callback)(), InputKeyCode KeyPress, InputActionCode KeyAction)
 		{
 			auto CallbackLambda = [Inst, Callback]()
 			{
@@ -115,13 +143,30 @@ namespace Crumb
 			};
 
 			//Create an input event with the given func, key press and action
-			FInputBinding Binding(CallbackLambda, KeyPress, KeyAction);
+			FInputActionBinding Binding(CallbackLambda, KeyPress, KeyAction);
 
 
 			InputBindings.push_back(Binding);
 		}
 
-		std::vector<FInputBinding> InputBindings;
+		//Im aware the grammar / order of whether its an input [blank] action or an input action [blank] changes in places, whoopsadasies
+
+		template <typename T>
+		void BindInputAxisEvent(T* Inst, void (T::* Callback)(float), InputKeyCode KeyPress)
+		{
+			auto CallbackLambda = [Inst, Callback](float value)
+				{
+					(Inst->*Callback)(value);
+				};
+
+			FInputAxisBinding Binding(CallbackLambda, KeyPress);
+
+			AxisBindings.push_back(Binding);
+		}
+
+		std::vector<FInputActionBinding> InputBindings;
+
+		std::vector<FInputAxisBinding> AxisBindings;
 	};
 
 }

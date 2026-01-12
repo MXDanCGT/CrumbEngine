@@ -45,7 +45,12 @@ namespace Crumb {
 		virtual void Shutdown() = 0;
 
 
-		inline static FKeyStateTracker WindowInputs;
+		inline static FKeyStateTracker WindowInputs_Keys;
+
+		inline static FAxisStateTracker WindowInputs_Axis;
+
+		/*Position of the mouse - set to whatever ur Window managers variation of get mouse position is on game start*/
+		inline static double* m_MousePosition; //TODO THIS MIGHT NOT WANT TO BE STATIC, WILL MAKE MULTIPLE WINDOWS A PAIN IF AN APP PROG EVER WANTS TO DO THAT
 
 	protected:
 
@@ -58,8 +63,6 @@ namespace Crumb {
 
 		std::string m_WindowName;
 
-		/*Position of the mouse - set to whatever ur Window managers variation of get mouse position is on game start*/
-		double* m_MousePosition;
 
 	private:
 
