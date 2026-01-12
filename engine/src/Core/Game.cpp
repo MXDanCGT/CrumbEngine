@@ -4,9 +4,9 @@
 
 #include "ecs.hpp/ecs.hpp"
 #include "Core/BaseSystem.h"
-
+#include "Audio/AudioComponents.h"
 #include "Input/InputSystem.h"
-
+#include "Audio/AudioSystem.h"
 using namespace ecs_hpp;
 
 namespace Crumb
@@ -39,6 +39,10 @@ namespace Crumb
 		m_GameRegistry.assign_feature<FInputFeature>()
 			.add_system<InputAxisSystem>()
 			.add_system<InputActionSystem>();
+
+
+		m_GameRegistry.assign_feature<FAudioFeature>()
+			.add_system<AudioSystem>();
 	
 
 		printf("Game object initialised\n");
@@ -84,6 +88,9 @@ namespace Crumb
 		m_WindowManager->UpdateWindow(); 
 		m_GameRegistry.process_event(FKeyStateTracker{m_WindowManager->WindowInputs_Keys}); //Update our system based on our recieved inputs this frame
 		m_GameRegistry.process_event(FAxisStateTracker{m_WindowManager->WindowInputs_Axis});
+		m_GameRegistry.process_event(FAudioRequests{m_GameAudioRequests});
+		//TEMP CLEAR AUDIO REQUESTS
+		m_GameAudioRequests.Requests.clear();
 		m_GameRegistry.process_event(FGameplayEvent{DeltaTime}); //Process application programmer defined gameplay events
 		m_Renderer->Update(m_World->GetLoadedChunks(), m_MainCamera.get());
 		m_WindowManager->PostRender(); //+ inputs handled here...

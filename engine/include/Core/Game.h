@@ -7,6 +7,7 @@
 #include "World/World.h"
 #include "Core/Camera.h"
 #include "Renderer/Renderer.h"
+#include "Audio/AudioComponents.h"
 
 #include "ecs.hpp/ecs.hpp"
 
@@ -49,10 +50,10 @@ namespace Crumb
 
 		FPlatformSettings m_PlatformSettings;
 
-		std::unique_ptr<MWindowManager> m_WindowManager;
+		/*The Audio requests we want to ship off*/
+		FAudioRequests m_GameAudioRequests;
 
-		/*shared ptr so we can pass a weak ptr to the window manager... ?*/
-		//MInputManager* m_InputManager;
+		std::unique_ptr<MWindowManager> m_WindowManager;
 
 		/*The game world*/
 		std::unique_ptr<World> m_World;

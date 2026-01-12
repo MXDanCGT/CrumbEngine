@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <iostream>
 
+#include "Audio/AudioComponents.h"
 #include "MCWorld.h"
 
 using namespace Crumb;
@@ -37,7 +38,7 @@ MorgCraft::MorgCraft(int ScreenHeight, int ScreenWidth, std::string WindowName, 
 		.component<FCInputManager>(PlayerInp);
 
 	//Adding input bindings now...
-	
+	m_GameAudioRequests.AddRequest("resources/C418 - Minecraft - Volume Alpha - 03 Subwoofer Lullaby.mp3");
 }
 
 MorgCraft::~MorgCraft()

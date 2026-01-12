@@ -2,7 +2,7 @@
 #include "Core/CoreComponents.h"
 namespace Crumb
 {
-	void Crumb::InputActionSystem::process(ecs_hpp::registry& world, const FKeyStateTracker& evt)
+	void InputActionSystem::process(ecs_hpp::registry& world, const FKeyStateTracker& evt)
 	{
 		world.for_each_component<FCInputManager>(
 			[&evt](ecs_hpp::entity, FCInputManager& bindings)
@@ -31,7 +31,7 @@ namespace Crumb
 	}
 
 
-	void Crumb::InputAxisSystem::process(ecs_hpp::registry& world, const FAxisStateTracker& evt)
+	void InputAxisSystem::process(ecs_hpp::registry& world, const FAxisStateTracker& evt)
 	{
 		world.for_each_component<FCInputManager>(
 			[&evt](ecs_hpp::entity, FCInputManager& bindings)
