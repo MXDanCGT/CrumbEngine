@@ -4,6 +4,9 @@
 [submodule "external/glm"]
 	path = external/glm
 	url = https://github.com/g-truc/glm
-[submodule "external/soloud"]
-	path = external/soloud
-	url = https://github.com/jarikomppa/soloud.git
+[submodule "external/ecs.hpp"]
+	path = external/ecs.hpp
+	url = https://github.com/BlackMATov/ecs.hpp
+[submodule "external/miniaudio"]
+	path = external/miniaudio
+	url = https://github.com/mackron/miniaudio

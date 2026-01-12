@@ -21,7 +21,7 @@ namespace Crumb
 		virtual void GenerateWorld();
 
 		/*Update the world!*/
-		virtual void Update();
+		//virtual void Update();
 
 		/*Chunk loading function exposed to the app programmer*/
 		FChunk* LoadChunk(int PosX, int PosY, int PosZ = 0);
@@ -61,7 +61,7 @@ namespace Crumb
 
 		}
 
-	private:
+	protected:
 
 		/**
 		* The pool of memory allocated on construction where we put all our loaded world chunks.
@@ -76,6 +76,12 @@ namespace Crumb
 
 		/*The chunks loaded into the map - the actual pointers*/
 		std::unordered_map<int, struct FChunk*> LoadedChunks;
+
+
+
+		uint16_t RenderDistance; //Number of chunks we have loaded at once...
+
+		uint16_t WorldSize; //Number of chunks in the total world...
 	};
 
 }

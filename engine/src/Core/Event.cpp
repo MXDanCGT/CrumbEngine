@@ -4,6 +4,7 @@ namespace Crumb
 {
 	Event::Event()
 	{
+		FuncNum = 0;
 		m_AxisValue = 0;
 		m_Callback = nullptr;
 		m_Callback_Axis = nullptr;
@@ -15,7 +16,7 @@ namespace Crumb
 		m_Callback_Axis = nullptr;
 	}
 
-	void Event::Trigger()
+	void Event::Trigger() const
 	{
 		switch (FuncNum)
 		{

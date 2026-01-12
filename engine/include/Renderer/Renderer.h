@@ -47,8 +47,7 @@ namespace Crumb
 
 	private:
 
-		std::unique_ptr<Mesh> m_DebugCube; //TEMP SO WE CAN SEE OURSELVES SET UP
-
+		//TODO MORE SHADERS
 		std::unique_ptr<BaseShader_GL> PassShader;
 	};
 

@@ -12,12 +12,10 @@ namespace Crumb {
 
 	MRenderer::MRenderer()
 	{
-
 	}
 
 	MRenderer::~MRenderer()
 	{
-
 	}
 
 
@@ -41,25 +39,6 @@ namespace Crumb {
 		/*Wec call set shader params here*/
 		//TODO ALLOW APP PROG TO DEFINE THEIR OWN SHADER AND CHANGE THROUGH USE OF A DEFAULT SHADER
 
-		//Make sure our shader is up to date TODO ALLOW THIS TO HAPPEN ELSEWHERE??
-
-		//PassShader->SetShaderParams(m_DebugCube->GetWorldMat(), Cam->GetViewMatrix(), Cam->GetProjMatrix());
-
-		//const unsigned int MWLoc = glGetUniformLocation(PassShader->GetID(), "MatWorld");
-		//glUniformMatrix4fv(MWLoc, 1, false, &m_DebugCube->GetWorldMat()[0][0]);
-
-		//unsigned int MVLoc = glGetUniformLocation(PassShader->GetID(), "MatView");
-		//glUniformMatrix4fv(MVLoc, 1, false, &Cam->GetViewMatrix()[0][0]);
-
-		//unsigned int MPLoc = glGetUniformLocation(PassShader->GetID(), "MatProj");
-		//glUniformMatrix4fv(MPLoc, 1, false, &Cam->GetProjMatrix()[0][0]);
-
-
-		//m_DebugCube->Render();
-
-
-		//OLD DEBUG CODE ^^^
-
 		for (std::pair<int, FChunk*> i : Chunks)
 		{
 			PassShader->SetShaderParams(i.second->GetWorldMat(), Cam->GetViewMatrix(), Cam->GetProjMatrix());
@@ -72,6 +51,8 @@ namespace Crumb {
 
 	void MRenderer_GL::Init()
 	{
+		assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)); //Moved this here so all specifically GL is in the renderer, (almost) all GLFW is in the window manager...
+
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 
@@ -79,6 +60,5 @@ namespace Crumb {
 
 		//DO this here so we can be sure we've initialised OpenGL in our GLFW window first
 		PassShader->Init("resources/Pass.vert", "resources/Pass.frag");
-		m_DebugCube = std::make_unique<Mesh>(); //Want to create this after OpenGL init is done
 	}
 }

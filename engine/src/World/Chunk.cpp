@@ -7,17 +7,31 @@ namespace Crumb
 {
 	FChunk::FChunk()
 	{
+		Tex = nullptr;
+		//MORE ROBUST CHUNK CHECKER
+		for (int i = 0; i < 16 * 16 * 16; ++i) //Init chunk to full of air...
+			ChunkBlocks[i] = 0;
+
 		m_VertArrayID = 0;
+
+		//This works for CHUNK COORDINATES as the sign bit is not needed - coords range 0-ChunkSize with 0 being bottom left (*** MIGHT HAVE CHANGED IN IMPLEM AND NOT UPDATED COMMENTS)
+		m_WorldPos = { 0.f,0.f,0.f }; //Init pos to 0 0 0 
+		m_FaceCount = 0;
+
+	}
+
+	void FChunk::InitChunk()
+	{
 		Tex = new Texture_GL("resources/Blocks.bmp");
 
 		//Think we still only need to do this once?
 		glGenVertexArrays(1, &m_VertArrayID);
-		glBindVertexArray(m_VertArrayID);	
+		glBindVertexArray(m_VertArrayID);
 
 		//Gen vert buffer
 		glGenBuffers(1, &m_ChunkVertBuffer);
 		glGenBuffers(1, &m_ChunkIndBuffer);
-		
+
 		glBindBuffer(GL_ARRAY_BUFFER, m_ChunkVertBuffer);
 		//Data empty initially...
 
@@ -37,29 +51,28 @@ namespace Crumb
 		//UVs
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(
-			1, 
-			2, 
-			GL_FLOAT, 
-			GL_FALSE, 
-			sizeof(FVert), 
+			1,
+			2,
+			GL_FLOAT,
+			GL_FALSE,
+			sizeof(FVert),
 			(void*)offsetof(FVert, UV)
 		);
 		//Dont believe I need to set this up more than once ^^^
 
 		glBindVertexArray(0);
-
-		//This works for CHUNK COORDINATES as the sign bit is not needed - coords range 0-ChunkSize with 0 being bottom left (*** MIGHT HAVE CHANGED IN IMPLEM AND NOT UPDATED COMMENTS)
-		m_WorldPos = { 0.f,0.f,0.f }; //Init pos to 0 0 0 
-		m_FaceCount = 0;
 		//Init the chunk as all air by default
 
 
-		//MORE ROBUST CHUNK CHECKER
-		for (int i = 0; i < sizeof(ChunkBlocks) / sizeof(ChunkBlocks[0]); ++i)
+		//FOR NOW FOR US TO SEE WHATS GOING ON
+		for (int i = 0; i < 16 * 16 * 16; ++i) //Init chunk to full of air...
 			if (i % 2 == 0)
-				ChunkBlocks[i] = 1; //TEMP TODO FOR THE TIME BEING WE ARE SETTING IT ALL TO DIRT TO SEE BLOCKS RENDERING CORRECTLY...
-			else
 				ChunkBlocks[i] = 0;
+			else if (i % 3 == 0)
+				ChunkBlocks[i] = 1;
+			else
+				ChunkBlocks[i] = 2;
+
 	}
 
 	void FChunk::CreateChunkMesh()

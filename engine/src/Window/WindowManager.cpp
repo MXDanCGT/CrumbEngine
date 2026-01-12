@@ -16,7 +16,7 @@ namespace Crumb
 		m_WindowName = WindowName;
 
 		m_Fullscreen = Fullscreen;
-		m_InputManager = InputManager;
+		//m_InputManager = InputManager;
 	}
 
 	MWindowManager_GLFW::MWindowManager_GLFW(int WindowWidth, int WindowHeight, std::string WindowName, MInputManager* InputManager, bool Fullscreen) : MWindowManager::MWindowManager(WindowWidth, WindowHeight, WindowName, InputManager, Fullscreen)
@@ -24,8 +24,7 @@ namespace Crumb
 		m_Window = nullptr;
 		m_Monitor = nullptr;
 
-		m_Renderer = std::make_unique<MRenderer_GL>();
-		m_InputManager = (MInputManager_GLFW*)InputManager;
+		//m_InputManager = (MInputManager_GLFW*)InputManager;
 	}
 
 	MWindowManager_GLFW::~MWindowManager_GLFW()
@@ -62,7 +61,7 @@ namespace Crumb
 			return -1;
 		}
 		
-		glfwSetWindowUserPointer(m_Window, (void*)m_InputManager);
+		//glfwSetWindowUserPointer(m_Window, (void*)m_InputManager);
 
 		double X;
 		double Y;
@@ -80,12 +79,6 @@ namespace Crumb
 
 		MInputManager_GLFW* Test = (MInputManager_GLFW*)glfwGetWindowUserPointer(m_Window);
 
-
-		assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)); 
-		//Should renderer or window manager be calling this? ^^^
-
-		m_Renderer->Init();
-
 		return 0;
 	}
 
@@ -101,27 +94,38 @@ namespace Crumb
 		//If so add to input event queue TODO this feels a little dodgy going back and forth between systems like this..
 
 		//Circumvents need for static shit
-		MInputManager_GLFW* InputManager = nullptr;
-		InputManager = (MInputManager_GLFW*)glfwGetWindowUserPointer(window);
+		//MInputManager_GLFW* InputManager = nullptr;
+		//InputManager = (MInputManager_GLFW*)glfwGetWindowUserPointer(window);
 
-		//As Crumb key numbers are the same as GLFW, we just need to find a binding in the Input manager for this number...
+		////As Crumb key numbers are the same as GLFW, we just need to find a binding in the Input manager for this number...
 
-		//And this function is only called when there IS a key input event, so we dont need to filter that.
-		//Simply pass off the key and action values
+		////And this function is only called when there IS a key input event, so we dont need to filter that.
+		////Simply pass off the key and action values
 
 
-		if(InputManager)
-			InputManager->LogInputEvent(key, action, mods);
+		//if(InputManager)
+		//	InputManager->LogInputEvent(key, action, mods);
+	
+		//Old impl ^^
+
+		//Push back to our input events
+
+		FInputEvent NewEvent;
+		NewEvent.Key = key; //GLFW key codes are identical to the crumb key codes - in a different library we'd have to create a dictionary
+		NewEvent.Action = action;
+
+		WindowInputs.InputEvents.push_back(NewEvent);
+	
 	}
 
 	void MWindowManager_GLFW::ManageMouseMovement(GLFWwindow* window, double XPos, double YPos)
 	{
-		//Because this is a static function and I dont have time to get something elegant we're just gonna pass straight to the input manager...
-		MInputManager_GLFW* InputManager = nullptr;
-		InputManager = (MInputManager_GLFW*)glfwGetWindowUserPointer(window);
+		////Because this is a static function and I dont have time to get something elegant we're just gonna pass straight to the input manager...
+		//MInputManager_GLFW* InputManager = nullptr;
+		//InputManager = (MInputManager_GLFW*)glfwGetWindowUserPointer(window);
 
-		if (InputManager)
-			InputManager->LogMouseMove(XPos, YPos); //Here we call GLFW implem which calls Super
+		//if (InputManager)
+		//	InputManager->LogMouseMove(XPos, YPos); //Here we call GLFW implem which calls Super
 
 	}
 
@@ -131,16 +135,20 @@ namespace Crumb
 		InputManager = (MInputManager_GLFW*)glfwGetWindowUserPointer(window);
 
 		GLFW_MOUSE_BUTTON_RIGHT;
-		if (InputManager)
-			InputManager->LogInputEvent(button, action, mods);
+		//if (InputManager)
+		//	InputManager->LogInputEvent(button, action, mods);
 	}
 
-	void MWindowManager_GLFW::UpdateWindow(std::unordered_map<int, struct FChunk*> Chunks, Camera* GameCamera)
+	void MWindowManager_GLFW::UpdateWindow()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
 
+	void MWindowManager_GLFW::PostRender()
+	{
 
-		m_Renderer->Update(Chunks, GameCamera);
+		//Clear our inputs (?)
+		WindowInputs.InputEvents.clear();
 
 		glfwSwapBuffers(m_Window);
 		glfwPollEvents();

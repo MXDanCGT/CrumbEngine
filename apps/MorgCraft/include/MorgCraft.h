@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "ecs.hpp/ecs.hpp"
 
 #include "Core/Game.h"
 
@@ -18,6 +19,9 @@ public:
 
 	/*Debug tester function for input actions...*/
 	void SayFoo() { printf("Foo"); }
+
+	/*Do we need this here??*/
+	//ecs_hpp::entity PlayerEnt;
 
 
 	void LookCameraLeftRight(float LR);

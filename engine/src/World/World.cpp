@@ -39,7 +39,7 @@ namespace Crumb
 		//New chunk from our memory pool...
 		FChunk* NewChunk = MemPool->allocate();
 		assert(NewChunk);
-
+		NewChunk->InitChunk();
 		//Offset position by 8 in each axis we want to from the centre of the world
 		//TODO INIT LOGIC, IF THIS IS GENERATE WORLD USE SEED ELSE READ FROM A FILE TODO SAVING ETC. ETC.
 
@@ -73,9 +73,4 @@ namespace Crumb
 		//LoadChunk(0.f,10.f,0.f);
 	}
 
-
-	void World::Update()
-	{
-		//TODO MOVEMENT CALCS AND CHUNKS LOADING / UNLOADING...
-	}
 }

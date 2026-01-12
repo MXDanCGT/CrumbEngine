@@ -22,7 +22,6 @@ namespace Crumb
 		/*Initialise our managers / all the systems we may need*/
 		int Init();
 
-
 	private:
 
 		std::unique_ptr<Game> m_Game;

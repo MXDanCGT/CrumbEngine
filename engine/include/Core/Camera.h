@@ -8,6 +8,15 @@
 
 namespace Crumb
 {
+
+	/*
+	* ECS camera component
+	*/
+	struct FCameraComponment
+	{
+
+	};
+
 	/*
 	* Cameras are what we view the world through - and what we form our view matrix on
 	*/

@@ -8,3 +8,5 @@ add_subdirectory(glfw) #Window and input
 add_subdirectory(glm)
 add_subdirectory(glad)
 add_subdirectory(stb)
+add_subdirectory(ecs.hpp)
+add_subdirectory(miniaudio)

@@ -2,6 +2,7 @@
 #include "pch.h"
 
 #include "World/Chunk.h"
+#include "Input/InputEvent.h"
 
 //FORWARD DECLS
 
@@ -31,13 +32,20 @@ namespace Crumb {
 		virtual int InitWindow() = 0;
 
 		/*Update window, poll window events*/
-		virtual void UpdateWindow(std::unordered_map<int, struct FChunk*> Chunks, Camera* GameCamera) = 0;
+		virtual void UpdateWindow() = 0;
+
+		/*Post render update window handling*/
+		virtual void PostRender() = 0;
+
 
 		/*Helper function to get if the window should close i.e.: if we should stop the game loop*/
 		virtual bool bShouldCloseWindow() = 0; 
 
 		/*Shutdown the window*/
 		virtual void Shutdown() = 0;
+
+
+		inline static FInputEvents WindowInputs;
 
 	protected:
 
@@ -56,10 +64,7 @@ namespace Crumb {
 	private:
 
 		/*Weak ptr to our input manager, allows us to see the events with key bindings and add them to the managers event queue*/
-		MInputManager* m_InputManager;
-
-		/*The windows renderer (i.e.: rendering to THIS window)*/
-		MRenderer* m_Renderer;
+		//MInputManager* m_InputManager;
 	};
 
 	/*
@@ -80,7 +85,9 @@ namespace Crumb {
 		virtual int InitWindow() override;
 
 		/*Update the window GLFW implementation*/
-		virtual void UpdateWindow(std::unordered_map<int, struct FChunk*> Chunks, Camera* GameCamera) override;
+		virtual void UpdateWindow() override;
+
+		virtual void PostRender() override;
 
 		/*GLFW keypress callback function - accesses input manager, and bindings as defined by the application programmer*/
 		static void ManageKeyboardInput(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -95,8 +102,6 @@ namespace Crumb {
 
 		/*Shutdown the window(s)*/
 		virtual void Shutdown() override;
-
-	private:
 
 		/*Simple resizing function...*/
 		static void SizeCallback(GLFWwindow* Win, int Width, int Height);
@@ -114,10 +119,13 @@ namespace Crumb {
 		/*GLFW monitor ptr for where we put those windows*/
 		GLFWmonitor* m_Monitor;
 
-		MInputManager_GLFW* m_InputManager;
+		//MInputManager_GLFW* m_InputManager;
 	
 
 		std::unique_ptr<MRenderer_GL> m_Renderer;
+
+
+		
 
 	};
 }

@@ -17,17 +17,17 @@ namespace Crumb
 		Event();
 		~Event();
 
-		virtual void Trigger();
+		virtual void Trigger() const;
 
 		/*GETS N SETS*/
 
 		inline unsigned char GetFuncNum() { return FuncNum; }
 		inline void SetFuncNum(unsigned char G) { FuncNum = G; }
 
-		inline std::function<void()> GetCallback() { return m_Callback; }
+		inline std::function<void()> GetCallback() const { return m_Callback; }
 		inline void SetCallback(std::function<void()> Callback) { m_Callback = Callback; }
 
-		inline std::function<void(float)> GetCallbackAxis() { return m_Callback_Axis; }
+		inline std::function<void(float)> GetCallbackAxis() const { return m_Callback_Axis; }
 		inline void SetCallbackAxis(std::function<void(float)> Callback) { m_Callback_Axis = Callback; }
 
 		inline float GetAxisValue() { return m_AxisValue; }

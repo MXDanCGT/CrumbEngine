@@ -20,8 +20,10 @@ add_subdirectory("external/glad")
 add_subdirectory("external/glfw")
 add_subdirectory("external/glm")
 add_subdirectory("external/stb")
+add_subdirectory("external/ecs.hpp")
+add_subdirectory("external/miniaudio")
 
-target_link_libraries(CrumbEngine PRIVATE glfw glad glm) #atm, this is where we link... but is this good or should this be lower down?
+target_link_libraries(CrumbEngine PRIVATE glfw glad glm stb ecs.hpp::ecs.hpp) #atm, this is where we link... but is this good or should this be lower down?
 
 #We export the engine here - TODO is this the best way to do this?
 #Other option would be exporting in engine/CMakeLists.txt by each module individually... but that feels cumbersome

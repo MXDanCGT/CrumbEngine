@@ -5,6 +5,8 @@
 #include <iomanip>
 #include <iostream>
 
+#include "MCWorld.h"
+
 using namespace Crumb;
 
 MorgCraft::MorgCraft(int ScreenHeight, int ScreenWidth, std::string WindowName, bool Fullscreen) : Game::Game(ScreenHeight, ScreenWidth, WindowName, Fullscreen)
@@ -14,16 +16,20 @@ MorgCraft::MorgCraft(int ScreenHeight, int ScreenWidth, std::string WindowName, 
 	//TOOD a begin play function?
 	Delta = 0.f;
 
-	m_InputManager->BindInputEvent<MorgCraft>(&MorgCraft::MoveCameraForward, this, CRUMB_W, CRUMB_PRESSED);
-	m_InputManager->BindInputEvent<MorgCraft>(&MorgCraft::MoveCameraBack, this, CRUMB_S, CRUMB_PRESSED);
-	m_InputManager->BindInputEvent<MorgCraft>(&MorgCraft::MoveCameraLeft, this, CRUMB_A, CRUMB_PRESSED);
-	m_InputManager->BindInputEvent<MorgCraft>(&MorgCraft::MoveCameraRight, this, CRUMB_D, CRUMB_PRESSED);
 
-	m_InputManager->BindInputEvent<MorgCraft>(&MorgCraft::MoveCameraUp, this, CRUMB_E, CRUMB_PRESSED);
-	m_InputManager->BindInputEvent<MorgCraft>(&MorgCraft::MoveCameraDown, this, CRUMB_Q, CRUMB_PRESSED);
+	m_World = std::make_unique<MCWorld>();
 
-	m_InputManager->BindInputEvent<MorgCraft>(&MorgCraft::LookCameraLeftRight, this, CRUMB_MOUSE_X_AXIS, CRUMB_PRESSED);
-	m_InputManager->BindInputEvent<MorgCraft>(&MorgCraft::LookCameraUpDown, this, CRUMB_MOUSE_Y_AXIS, CRUMB_PRESSED);
+	//The pitfall of doing it this way is that inputs have to belong to an entity - in this case typically the player, or maybe a controller, but all the same.
+	FCInputManager PlayerInp;
+	PlayerInp.BindInputEvent<MorgCraft>(this, &MorgCraft::SayFoo, CRUMB_W, CRUMB_PRESSED);
+
+	//Make a "player" entity here
+	ecs_hpp::entity PlayerEnt = m_GameRegistry.create_entity();
+	ecs_hpp::entity_filler(PlayerEnt)
+		.component<FCInputManager>(PlayerInp);
+
+	//Adding input bindings now...
+	
 }
 
 MorgCraft::~MorgCraft()

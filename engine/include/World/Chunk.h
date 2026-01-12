@@ -28,6 +28,9 @@ namespace Crumb
 
 		FChunk();
 
+
+		void InitChunk(); /*Seperated from constructor...*/
+
 		/*Verticies positions...*/
 		std::vector<FVert> Verts;
 

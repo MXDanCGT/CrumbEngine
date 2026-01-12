@@ -1,6 +1,14 @@
 #include "Core/Game.h"
 
 #include "World/Chunk.h"
+
+#include "ecs.hpp/ecs.hpp"
+#include "Core/BaseSystem.h"
+
+#include "Input/InputSystem.h"
+
+using namespace ecs_hpp;
+
 namespace Crumb
 {
 	Game::Game(int ScreenHeight, int ScreenWidth, std::string WindowName, bool Fullscreen)
@@ -8,13 +16,17 @@ namespace Crumb
 		switch (m_PlatformSettings.WindowPlatform)
 		{
 		case EPS_Window::EPS_W_GLFW: //GLFW window
-			m_InputManager = new MInputManager_GLFW();
-			m_WindowManager = std::make_unique<MWindowManager_GLFW>(ScreenHeight, ScreenWidth, WindowName, m_InputManager, Fullscreen);
+			//m_InputManager = new MInputManager_GLFW();
+			m_WindowManager = std::make_unique<MWindowManager_GLFW>(ScreenHeight, ScreenWidth, WindowName, nullptr, Fullscreen);
+
+			//We also wanna make our renderer GL
+			m_Renderer = std::make_unique<MRenderer_GL>(); //ENSURING WE ARE CALLING THIS
+
 			break;
 
 		default:
-			m_InputManager = new MInputManager_GLFW();
-			m_WindowManager = std::make_unique<MWindowManager_GLFW>(ScreenHeight, ScreenWidth, WindowName, m_InputManager, Fullscreen);
+			//m_InputManager = new MInputManager_GLFW();
+			m_WindowManager = std::make_unique<MWindowManager_GLFW>(ScreenHeight, ScreenWidth, WindowName, nullptr, Fullscreen);
 			break;
 		}
 
@@ -23,11 +35,16 @@ namespace Crumb
 
 		m_MainCamera = std::make_unique<Camera>();
 
+
+		m_GameRegistry.assign_feature<FInputFeature>().add_system<InputSystem>();
+
 		printf("Game object initialised\n");
 	}
 
 	Game::~Game()
 	{
+		m_WindowManager->Shutdown();
+
 	}
 
 	int Game::Init()
@@ -36,8 +53,12 @@ namespace Crumb
 			return -1;
 
 
-		m_World = std::make_unique<World>();
-		m_World->GenerateWorld();
+		m_Renderer->Init();
+
+
+		//If we define a world in OUR implementation
+		if(m_World)
+			m_World->GenerateWorld();
 
 		return 0;
 	}
@@ -51,12 +72,20 @@ namespace Crumb
 	{
 		m_WindowManager->Shutdown();
 	}
+
 	void Game::Tick(float DeltaTime)
 	{
+
 		//This being called means we've already handled whether or not the app should close...
-		m_WindowManager->UpdateWindow(m_World->GetLoadedChunks(), m_MainCamera.get()); //m_Window manager also handles renderer
-		m_InputManager->Update();
-		m_World->Update();
+
+		m_WindowManager->UpdateWindow(); 
+		m_GameRegistry.process_event(FInputEvents{m_WindowManager->WindowInputs}); //Update our system based on our recieved inputs this frame
+		m_GameRegistry.process_event(FGameplayEvent{DeltaTime});
+		m_Renderer->Update(m_World->GetLoadedChunks(), m_MainCamera.get());
+		m_WindowManager->PostRender(); //+ inputs handled here...
+
+
+
 		//Go through our event queue and do it
 	}
 }

@@ -6,6 +6,9 @@
 #include "Input/InputManager.h"
 #include "World/World.h"
 #include "Core/Camera.h"
+#include "Renderer/Renderer.h"
+
+#include "ecs.hpp/ecs.hpp"
 
 namespace Crumb
 {
@@ -38,14 +41,18 @@ namespace Crumb
 		/*Should we continue to run the game, or close (for whatever reason)*/
 		bool ShouldCloseGame();
 
+
 	protected:
+
+		/*Registry of entities for this game*/
+		ecs_hpp::registry m_GameRegistry;
 
 		FPlatformSettings m_PlatformSettings;
 
 		std::unique_ptr<MWindowManager> m_WindowManager;
 
 		/*shared ptr so we can pass a weak ptr to the window manager... ?*/
-		MInputManager* m_InputManager;
+		//MInputManager* m_InputManager;
 
 		/*The game world*/
 		std::unique_ptr<World> m_World;
@@ -53,6 +60,10 @@ namespace Crumb
 		/*All games have a camera - TODO APP PROG CAN OVERRIDE THIS*/
 		std::unique_ptr<Camera> m_MainCamera;
 
+		/*Decoupled this from our window manager...*/
+		std::unique_ptr<MRenderer> m_Renderer;
+
+		//std::unique_ptr<
 	};
 
 }
